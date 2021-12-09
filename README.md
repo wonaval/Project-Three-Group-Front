@@ -31,9 +31,9 @@ This projects is about making an website that allows people to buy physical good
 | /user | POST | Signup/Create user |
 | /user/login | POST | Login user |
 | /user | GET | Verify user |
-| /items | GET | All products |
-| /items/:id | GET | product detail |
-| /cart/:id | POST | Add to cart |
+| /items | GET | Pull all products |
+| /items/:id | GET | Pull product detail |
+| /cart | POST | Add to cart |
 | /cart | GET | Show my cart |
 | /cart | DELETE | Remove from cart |
 
