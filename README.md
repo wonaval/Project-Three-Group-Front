@@ -26,6 +26,16 @@ This projects is about making an website that allows people to buy physical good
 :white_medium_small_square: User is allow to check their recent orders.
 
 ## Routes 
+| PATH | ROUTE | Description |
+| --- | --- | --- |
+| /user | POST | Signup/Create user |
+| /user/login | POST | Login user |
+| /user | GET | Verify user |
+| /items | GET | All products |
+| /items/:id | GET | product detail |
+| /cart/:id | POST | Add to cart |
+| /cart | GET | Show my cart |
+| /cart | DELETE | Remove from cart |
 
 ## Core Goals 
 
