@@ -4,10 +4,22 @@
 
 This projects is about making an website that allows people to buy physical goods. The website would let the user register and login to their own account. Once login to their account, the user would be able to add and remove products from their cart. They are also able to see all of the products that is available to purchase. 
 
-## Wireframe
+---
 
-![Wireframe](./images/erd.png)
+## Wireframe
 ![Wireframe](./images/wireframe.png)
+
+---
+
+## ERD
+![ERD](./images/erd.png)
+
+---
+
+## Component Tree
+![Component Tree](./images/comp-tree.png)
+
+---
 
 ## User Stories
 
@@ -25,6 +37,8 @@ This projects is about making an website that allows people to buy physical good
 
 :white_medium_small_square: User is allow to check their recent orders.
 
+---
+
 ## Routes 
 | PATH | ROUTE | Description |
 | --- | --- | --- |
@@ -36,6 +50,8 @@ This projects is about making an website that allows people to buy physical good
 | /cart | POST | Add to cart |
 | /cart | GET | Show my cart |
 | /cart | DELETE | Remove from cart |
+
+---
 
 ## Core Goals 
 
@@ -56,6 +72,8 @@ This projects is about making an website that allows people to buy physical good
 :eight:&nbsp; The My Cart page lists products that I have put into my cart. Next to each product is a Remove From Cart button, which removes the item from my cart (the item should disappear from the page without requiring a page refresh). The total of my order is displayed on the page (we're ignoring tax and shipping). There is a Checkout button which creates an order containing all the items from my cart, then empties the cart. In order to checkout, the shopper must input an address and a credit card number. These values will get saved to the order, but we won't do anything with them in this project. After checking out, the user is redirected to the My Orders page.
 
 :nine:&nbsp; The My Orders page displays a list of my completed orders, using the date of the order as a clickable link. When I click on a single order, I see the Single Order page, which shows its products (name and price), the total price of the order, and the credit card & address.
+
+---
 
 ## Strech Goals
 
