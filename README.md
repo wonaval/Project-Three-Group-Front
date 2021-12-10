@@ -4,10 +4,22 @@
 
 This projects is about making an website that allows people to buy physical goods. The website would let the user register and login to their own account. Once login to their account, the user would be able to add and remove products from their cart. They are also able to see all of the products that is available to purchase. 
 
-## Wireframe
+---
 
-![Wireframe](./images/erd.png)
+## Wireframe
 ![Wireframe](./images/wireframe.png)
+
+---
+
+## ERD
+![ERD](./images/erd.png)
+
+---
+
+## Component Tree
+![Component Tree](./images/comp-tree.png)
+
+---
 
 ## User Stories
 
@@ -25,7 +37,21 @@ This projects is about making an website that allows people to buy physical good
 
 :white_medium_small_square: User is allow to check their recent orders.
 
+---
+
 ## Routes 
+| PATH | ROUTE | Description |
+| --- | --- | --- |
+| /user | POST | Signup/Create user |
+| /user/login | POST | Login user |
+| /user | GET | Verify user |
+| /items | GET | Pull all products |
+| /items/:id | GET | Pull product detail |
+| /cart | POST | Add to cart |
+| /cart | GET | Show my cart |
+| /cart | DELETE | Remove from cart |
+
+---
 
 ## Core Goals 
 
@@ -47,6 +73,8 @@ This projects is about making an website that allows people to buy physical good
 
 :nine:&nbsp; The My Orders page displays a list of my completed orders, using the date of the order as a clickable link. When I click on a single order, I see the Single Order page, which shows its products (name and price), the total price of the order, and the credit card & address.
 
+---
+
 ## Strech Goals
 
 :one:&nbsp; Each Product has a quantity in the database. When a user buys a product, its quantity is reduced. Products with a quantity of 0 are not displayed in the All Products page. (A user can still only buy 1 of a product at a time.)
@@ -62,74 +90,3 @@ This projects is about making an website that allows people to buy physical good
 :six:&nbsp; Implement userId encryption and password hashing (stretch goals from https://git.generalassemb.ly/SEIR-1011/express-user-authentication).
 
 :seven:&nbsp; Deploy your app to Heroku. You'll need to make two separate deployments (frontend and backend).
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

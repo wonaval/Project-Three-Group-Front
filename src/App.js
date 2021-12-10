@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import {Route, Routes} from 'react-router-dom'
+import env from 'react-dotenv'
+
+// imports components and pages
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import MyCart from './pages/MyCart';
+import Category from './pages/Category';
+import Header from './components/Header';
 
 function App() {
+  console.log(env)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+      <Header />
+
+      <Routes>
+
+        <Route  path='/signup'  element={<Signup />} />
+
+        <Route path='/login' element={<Login />} />
+
+        <Route path='/cart' element={<MyCart />} />
+
+        <Route path='/category' element={<Category />} />
+
+      </Routes>
+      
     </div>
   );
 }
