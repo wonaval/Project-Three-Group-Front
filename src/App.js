@@ -8,9 +8,14 @@ import Login from './pages/Login';
 import MyCart from './pages/MyCart';
 import Category from './pages/Category';
 import Header from './components/Header';
+import { useContext } from 'react';
+import { UserContext } from './context/UserContext';
 
 function App() {
   console.log(env)
+
+  const value = useContext(UserContext)
+
   return (
     <div className="App">
 
