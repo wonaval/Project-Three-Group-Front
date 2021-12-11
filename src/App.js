@@ -9,6 +9,8 @@ import MyCart from './pages/MyCart';
 import Category from './pages/Category';
 import Header from './components/Header';
 
+import axios from 'axios'
+
 function App() {
   console.log(env)
   return (
