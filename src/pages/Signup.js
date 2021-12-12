@@ -17,14 +17,20 @@ const Signup = () => {
     
     const submitForm = async (e) => {
         e.preventDefault()
+        try {
         // Pulls user from backend
-        const response = await axios.post(`${env.BACKEND_URL}/user`, { name, email, password })
+          const response = await axios.post(`${env.BACKEND_URL}/user`, { name, email, password })
 
-        console.log (response)
+          // Sets user through useContext
+          setUser(response.data.user)
 
-        // Sets user through useContext
-        setUser(response)
-        localStorage.setItem('userId', user)
+          // Sets userId into localStorage
+          setTimeout(()=>{localStorage.setItem('userId', response.data.user.id)}, 1)
+        } catch (error) {
+          console.log('Error:', error.mesage)
+          
+        }
+
     }
     return (
         <div>
