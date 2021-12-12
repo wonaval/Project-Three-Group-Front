@@ -4,9 +4,13 @@ const UserContext = createContext()
 
 const UserProvider = ({children}) => {
   const [ user, setUser ] = useState({})
+  const [ cart, setCart ] = useState([])
+  const [ products, setProducts ] = useState([])
 
   const state = {
-    userState: [ user, setUser ]
+    userState: [ user, setUser ],
+    cartState: [ cart, setCart ],
+    productState: [ products, setProducts ]
   }
 
   return (

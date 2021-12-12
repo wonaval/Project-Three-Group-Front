@@ -28,7 +28,6 @@ const Signup = () => {
           setTimeout(()=>{localStorage.setItem('userId', response.data.user.id)}, 1)
         } catch (error) {
           console.log('Error:', error.mesage)
-          
         }
 
     }
