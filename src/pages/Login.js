@@ -20,11 +20,15 @@ const Login = () => {
         e.preventDefault()
         const response = await axios.post(`${env.BACKEND_URL}/user/login`, { email, password })
 
-      console.log (response)
+      
 
       // Sets user through useContext
-      setUser(response)
-      localStorage.setItem('userId', user)
+      await setUser(response.data.user)
+
+      console.log (response.data.user)
+      
+      setTimeout(()=>{localStorage.setItem('userId', user.id)}, 1)
+      await console.log(user.id)
     }
         
     return (

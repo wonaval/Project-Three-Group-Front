@@ -1,10 +1,17 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 import env from 'react-dotenv'
 import axios from 'axios'
 
 const AllProducts = () => {
+
+
+    const { userState } = useContext(UserContext)
+    const [ user, setUser ] = userState
+
+
     const {name} = useParams()
 
     const [products, setProducts] = useState([])
@@ -21,7 +28,7 @@ const AllProducts = () => {
         // setTimeout(()=>{console.log(products)},5000)
     }
 
-    useEffect(()=>{loadProducts()}, [])
+    useEffect(()=>{loadProducts(); console.log(user.password)}, [])
     return (
         <div>
 
@@ -40,7 +47,7 @@ const AllProducts = () => {
                             
                                 <h1>{item.name}</h1>
                                 <p>{item.description}</p>
-                                <img src={item.image} />
+                                <img src={item.image} alt={`Image of ${item.name}`} />
                             
                             </>
                             
