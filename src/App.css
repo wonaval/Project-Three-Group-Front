@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-ul {
+.nav-bar {
   display: flex;
   justify-content: space-between;
   list-style: none;
