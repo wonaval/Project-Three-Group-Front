@@ -39,7 +39,7 @@ const AllProducts = () => {
                 // "books"
                
                 return(
-                    <>
+                    <div key={item.id}>
                         {item.category === name ?
                         
                     
@@ -60,7 +60,7 @@ const AllProducts = () => {
                     
                         }
                 
-                    </>
+                    </div>
 
                 ) 
             })}
