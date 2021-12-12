@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import MyCart from './pages/MyCart';
 import Category from './pages/Category';
 import Header from './components/Header';
+import AllProducts from './components/AllProducts'
+
+
 import { useContext } from 'react';
 import { UserContext } from './context/UserContext';
 
@@ -33,6 +36,8 @@ function App() {
         <Route path='/cart' element={<MyCart />} />
 
         <Route path='/category' element={<Category />} />
+
+        <Route path='/category/:name' element={<AllProducts />} />
 
       </Routes>
       
