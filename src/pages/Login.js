@@ -16,19 +16,21 @@ const Login = () => {
     const [password, setPassword] = useState('')
     
     const submitForm = async (e) => {
-      // Pulls user from backend
-        e.preventDefault()
-        const response = await axios.post(`${env.BACKEND_URL}/user/login`, { email, password })
-
+      e.preventDefault()
+      try {
+            // Pulls user from backend
+            const response = await axios.post(`${env.BACKEND_URL}/user/login`, { email, password })
       
+            // Sets user through useContext
+            await setUser(response.data.user)
 
-      // Sets user through useContext
-      await setUser(response.data.user)
+            // Set userId into localStorage
+            setTimeout(()=>{localStorage.setItem('userId', response.data.user.id)}, 1)
 
-      console.log (response.data.user)
-      
-      setTimeout(()=>{localStorage.setItem('userId', user.id)}, 1)
-      await console.log(user.id)
+      } catch (error) {
+        console.log('Error:', error.message)
+      }
+
     }
         
     return (

@@ -6,7 +6,7 @@ import { UserContext } from '../context/UserContext'
 const Header = () => {
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
-    
+
     return (
         <div>
             <ul className='nav-bar'>
@@ -30,7 +30,9 @@ const Header = () => {
                     <li>
 
                         <span 
-                        onClick={()=>{localStorage.removeItem('userId')
+
+                        onClick={()=>{
+                            localStorage.removeItem('userId')
                             setUser({})}}
                         >Logout</span>
 

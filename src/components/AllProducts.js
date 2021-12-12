@@ -6,8 +6,6 @@ import env from 'react-dotenv'
 import axios from 'axios'
 
 const AllProducts = () => {
-
-
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
 
@@ -25,6 +23,7 @@ const AllProducts = () => {
 
         
         console.log(name)
+
         // setTimeout(()=>{console.log(products)},5000)
     }
 
@@ -45,9 +44,7 @@ const AllProducts = () => {
             {products.map((item, i) => {
 
                 // {console.log(item.category)}
-                {console.log(item.category === name)}
-                
-               
+
                 return(
                     <div key={item.id}>
                         {item.category === name ?
