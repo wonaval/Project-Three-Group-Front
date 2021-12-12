@@ -17,9 +17,10 @@ import axios from 'axios'
 
 function App() {
 
-  const { userState, cartState } = useContext(UserContext)
+  const { userState, cartState, productState } = useContext(UserContext)
   const [ user, setUser ] = userState
   const [ cart, setCart ] = cartState
+  const [ products, setProducts ]  = productState
 
   const fetchUser = async () => {
     const userId = localStorage.getItem('userId')
@@ -39,8 +40,9 @@ function App() {
 
 
   useEffect(()=>{
-    fetchUser()
-    getCart()
+    fetchUser();
+    getCart();
+    getProducts();
   }, [])
   const value = useContext(UserContext)
 
@@ -60,7 +62,15 @@ function App() {
     } catch (error) {
         console.log(error.message)
     }
-}
+  }
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(`${env.BACKEND_URL}/item`)
+      setProducts(response.data.items)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <div className="App">

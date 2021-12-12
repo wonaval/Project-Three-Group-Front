@@ -9,24 +9,23 @@ const MyCart = () => {
 
 
     useEffect(()=>{
-        loadProducts()
+        // loadProducts()
     }, [])
 
     // Cross Reference cartState against All Products Returns Product Info
-    const loadProducts = async () => {
-        try {
-            const response = await axios.get(`${env.BACKEND_URL}/item`)
-            const productList = await response.data.items
-            console.log(productList)
-            const cartList = await cart.map((item)=>{
-                return productList.find((product)=> product.id === item.itemId)
-            })
-            await setCartInfo(cartList)
+    // const loadProducts = async () => {
+    //     try {
 
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
+    //         console.log(productList)
+    //         const cartList = await cart.map((item)=>{
+    //             return productList.find((product)=> product.id === item.itemId)
+    //         })
+    //         await setCartInfo(cartList)
+
+    //     } catch (error) {
+    //         console.log(error.message)
+    //     }
+    // }
 
     return (
         <div>
