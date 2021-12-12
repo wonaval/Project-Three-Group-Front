@@ -27,6 +27,16 @@ const AllProducts = () => {
         // setTimeout(()=>{console.log(products)},5000)
     }
 
+    const addToCartClick = async (itemId) => {
+        const response = await axios.post(`${env.BACKEND_URL}/cart`, {id : itemId}, {
+            headers: {
+                Authorization: user.id
+            }
+        })
+
+        console.log(response)
+    }
+
     useEffect(()=>{loadProducts(); console.log(user.password)}, [])
     return (
         <div>
@@ -34,8 +44,7 @@ const AllProducts = () => {
             {products.map((item, i) => {
 
                 // {console.log(item.category)}
-                // {console.log(item.category === name)}
-                // "books"
+
                 return(
                     <div key={item.id}>
                         {item.category === name ?
@@ -46,6 +55,7 @@ const AllProducts = () => {
                                 <h1>{item.name}</h1>
                                 <p>{item.description}</p>
                                 <img src={item.image} alt={`Image of ${item.name}`} />
+                                <button onClick={()=>{addToCartClick(item.id)}}>Add to cart</button>
                             
                             </>
                             

@@ -30,7 +30,9 @@ const Header = () => {
                     <li>
 
                         <span 
-                            onClick={()=>{localStorage.removeItem('userId')
+
+                        onClick={()=>{
+                            localStorage.removeItem('userId')
                             setUser({})}}
                         >Logout</span>
 
