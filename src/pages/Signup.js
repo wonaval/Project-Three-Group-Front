@@ -22,10 +22,10 @@ const Signup = () => {
           const response = await axios.post(`${env.BACKEND_URL}/user`, { name, email, password })
 
           // Sets user through useContext
-          setUser(response.data.user)
+          await setUser(response.data.user)
 
           // Sets userId into localStorage
-          setTimeout(()=>{localStorage.setItem('userId', response.data.user.id)}, 1)
+          await localStorage.setItem('userId', response.data.user.id)
         } catch (error) {
           console.log('Error:', error.mesage)
         }

@@ -6,6 +6,7 @@ import env from 'react-dotenv'
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import MyCart from './pages/MyCart';
+import MyOrders from './pages/MyOrders';
 import Category from './pages/Category';
 import Header from './components/Header';
 import AllProducts from './components/AllProducts'
@@ -16,12 +17,14 @@ import { UserContext } from './context/UserContext';
 import axios from 'axios'
 
 function App() {
+  const value = useContext(UserContext)
 
   const { userState, cartState, productState } = useContext(UserContext)
   const [ user, setUser ] = userState
   const [ cart, setCart ] = cartState
   const [ products, setProducts ]  = productState
 
+  // Fetches user info sets to userState context if userId is in localstorage
   const fetchUser = async () => {
     const userId = localStorage.getItem('userId')
     try {
@@ -33,21 +36,18 @@ function App() {
           }
         })
         setUser(response.data.user)
+        await getCart();
       }
     }
     catch (error) { console.log(error) }
   }
 
 
-  useEffect(()=>{
-    fetchUser();
-    getCart();
-    getProducts();
-  }, [])
-  const value = useContext(UserContext)
-
+  // GET cart and sets to userState context if username is in localstorage
   const getCart = async () => {
+    const userId = localStorage.getItem('userId')
     try {
+      if(userId) {
         // GET cart from backend
         const userId = localStorage.getItem('userId')
         const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
@@ -59,18 +59,35 @@ function App() {
 
         // Confirmation
         await console.log('My Cart retrieved')
+      }
     } catch (error) {
         console.log(error.message)
     }
   }
+
+  // GET product list sets to productState context
   const getProducts = async () => {
     try {
+      // GET products from backend
       const response = await axios.get(`${env.BACKEND_URL}/item`)
+      // Set it as cartState context hook
       setProducts(response.data.items)
     } catch (error) {
       console.log(error.message)
     }
   }
+
+  // useEffect - On load functions
+  useEffect(()=>{
+    fetchUser();
+    getProducts();
+  }, [])
+
+  // useEffect - Load on change of userState
+
+  useEffect(()=>{
+    getCart();
+  }, [user])
 
   return (
     <div className="App">
@@ -82,9 +99,11 @@ function App() {
 
         <Route  path='/signup'  element={<Signup />} />
 
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<Login getCart={getCart}/>} />
 
-        <Route path='/cart' element={<MyCart />} />
+        <Route path='/cart' element={<MyCart  getCart={getCart}/>} />
+
+        <Route path='/orders' element={<MyOrders  getCart={getCart}/>} />
 
         <Route path='/category' element={<Category />} />
 
