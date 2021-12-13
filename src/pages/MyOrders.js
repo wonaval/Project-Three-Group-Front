@@ -11,25 +11,6 @@ const MyOrders = () => {
   // useStates
   const [ cartInfo, setCartInfo ] = useState([])
 
-  // useState
-  const [ address, setAddress ] = useState('')
-  const [ credit, setCredit ] = useState('')
-
-  const checkOut = async (e) => {
-    try {
-      const userId = localStorage.getItem('userId')
-      e.preventDefault()
-
-      await axios.put('/cart', {
-        headers : { Authorization : userId }
-      })
-      console.log('Checked out!')
-      
-    } catch (error) {
-      console.log(error.message)
-    }
-  }
-
         // Converts cartState context into productInfo to be displayed
         const itemInfo = async () => {
           try {
@@ -49,20 +30,7 @@ const MyOrders = () => {
 
   return (
     <div>
-      <div>My Orders</div>
-      <div>
-      </div>
-      <div>
-        <form onSubmit={checkOut}>
-          <label htmlFor='address'>Address:</label>
-          <input type='text' placeholder='Enter address...' onChange={(e)=>{setAddress(e.target.value)}}/>
-          <label htmlFor='creditCard'>Credit-card:</label>
-          <input type='text' placeholder='Enter credit card...' onChange={(e)=>{setCredit(e.target.value)}}/>
-          <button>Checkout</button>
-        </form>
-        <div>
-                <button onClick={()=>{}}>Checkout</button>
-        </div>
+      <div>My Previous Orders</div>
         <div>
         { cartInfo.map((item, i) => {
           return (
@@ -81,7 +49,6 @@ const MyOrders = () => {
           )
         })}
         </div>
-      </div>
     </div>
   )
 }
