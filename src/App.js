@@ -48,8 +48,10 @@ function App() {
         const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
         })
+
+        // console.log(cartResponse)
         // Set cart hook
-        await setCart([...cartResponse.data.item])
+        await setCart(cartResponse.data.items)
     } catch (error) {
         console.log(error.message)
     }
@@ -105,7 +107,7 @@ function App() {
 
         <Route path='/cart' element=
           { user.id ?
-            <MyCart getCart={getCart}/>
+            <MyCart getProducts={getProducts} getCart={getCart}/>
           :
             <Login />
           }
