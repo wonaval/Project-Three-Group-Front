@@ -101,7 +101,7 @@ function App() {
 
         <Route path='/login' element={<Login getCart={getCart}/>} />
 
-        <Route path='/cart' element={<MyCart  getCart={getCart}/>} />
+        <Route path='/cart' element={<MyCart getProducts={getProducts} getCart={getCart}/>} />
 
         <Route path='/orders' element={<MyOrders  getCart={getCart}/>} />
 
