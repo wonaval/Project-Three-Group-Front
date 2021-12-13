@@ -24,21 +24,16 @@ const Category = () => {
 
     return (
         <div>
-            <ul>
-
-                <li>
-                    <Link to='/category/bakery'>bakery</Link>
-                </li>
-
-                <li>
-                    <Link to='/category/books'>books</Link>
-                </li>
-
-                <li>
-                    <Link to='/category/electronics'>electronics</Link>
-                </li>
-
-            </ul>
+            <div>Categories</div>
+            <div>
+                <Link to='/category/bakery'>Bakery</Link>
+            </div>
+            <div>
+                <Link to='/category/books'>Books</Link>
+            </div>
+            <div>
+                <Link to='/category/electronics'>Electronics</Link>
+            </div>
         </div>
     )
 }
