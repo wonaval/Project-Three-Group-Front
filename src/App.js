@@ -1,5 +1,4 @@
 import './App.css';
-import {Route, Routes} from 'react-router-dom'
 import env from 'react-dotenv'
 
 // imports components and pages
@@ -96,7 +95,7 @@ function App() {
       <Header />
 
       <Routes>
-
+        <Route path='/' element={<Category />} />
         <Route  path='/signup'  element={<Signup />} />
 
         <Route path='/login' element={<Login getCart={getCart}/>} />

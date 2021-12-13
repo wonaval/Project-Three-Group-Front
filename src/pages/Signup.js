@@ -9,7 +9,7 @@ import env from 'react-dotenv'
 const Signup = () => {
   // WILL - This is the userContext syntax added
   const { userState } = useContext(UserContext)
-  const [ user, setUser ] = userState
+  const [ setUser ] = userState
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
