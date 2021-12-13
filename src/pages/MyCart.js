@@ -79,7 +79,7 @@ const MyCart = (props) => {
                 Cart Page
                 <div>
                     {cartInfo.map((item, i) => {
-                        console.log(item)
+                        // console.log(item)
                         return (
                             <div className='cartItem' key={i}>
                                 { cart[i].checkedOut ?
