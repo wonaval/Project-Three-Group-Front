@@ -18,6 +18,7 @@ const CheckOut = () => {
       console.log('Checked out!', response)
     } catch (error) {
       
+
         console.log(error.message)
     }
   }
@@ -25,7 +26,7 @@ const CheckOut = () => {
 
   return (
     <div>
-      <form onSubmit={submitForm}>
+      <form onSubmit={(e)=>{submitForm(e)}}>
         <label htmlFor='address'>Address:</label>
         <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
         <label htmlFor='creditCard'>Credit-card:</label>
