@@ -18,7 +18,7 @@ const Header = (props) => {
                             Category
                         </Link>
                     </li>
-                { localStorage.getItem('userId') ?
+                { user.id ?
                     <>
                         <li>
                             <Link
@@ -35,13 +35,13 @@ const Header = (props) => {
                         </li>
 
                         <li>
-                            <span 
+                            <Link to='/'
                             onClick={()=>{
-                                localStorage.removeItem('userId')
                                 setUser({})
                                 setCart([])
+                                localStorage.removeItem('userId')
                             }}
-                            >Logout</span>
+                            >Logout</Link>
                         </li>
                     </>
                 :

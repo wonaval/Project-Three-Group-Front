@@ -1,5 +1,5 @@
 import './App.css';
-import {Route, Routes} from 'react-router-dom'
+import {Route, Routes, Navigate} from 'react-router-dom'
 import env from 'react-dotenv'
 
 // imports components and pages
@@ -17,8 +17,6 @@ import { UserContext } from './context/UserContext';
 import axios from 'axios'
 
 function App() {
-  const value = useContext(UserContext)
-
   const { userState, cartState, productState } = useContext(UserContext)
   const [ user, setUser ] = userState
   const [ cart, setCart ] = cartState
@@ -36,29 +34,22 @@ function App() {
           }
         })
         setUser(response.data.user)
-        await getCart();
       }
     }
     catch (error) { console.log(error) }
   }
 
-
-  // GET cart and sets to userState context if username is in localstorage
+  // GET cart and sets to cartState context
   const getCart = async () => {
     const userId = localStorage.getItem('userId')
     try {
       if(userId) {
         // GET cart from backend
-        const userId = localStorage.getItem('userId')
         const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
         })
-
         // Set cart hook
-        await setCart(cartResponse.data.items)
-
-        // Confirmation
-        await console.log('My Cart retrieved')
+        await setCart(cartResponse.data.item)
       }
     } catch (error) {
         console.log(error.message)
@@ -80,14 +71,13 @@ function App() {
   // useEffect - On load functions
   useEffect(()=>{
     fetchUser();
+    getCart();
     getProducts();
   }, [])
 
-  // useEffect - Load on change of userState
-
   useEffect(()=>{
     getCart();
-  }, [user])
+  }, [user.id])
 
   return (
     <div className="App">
@@ -96,16 +86,44 @@ function App() {
       <Header />
 
       <Routes>
+        <Route path='/' element={<Category />} />
 
-        <Route  path='/signup'  element={<Signup />} />
+        <Route path='/signup'  element=
+          { user.id ?
+              <Navigate to='/category'/>
+            :
+              <Signup />
+          }
+        />
 
-        <Route path='/login' element={<Login getCart={getCart}/>} />
+        <Route path='/login' element=
+          { user.id ?
+            <Navigate to='/category'/>
+          :
+            <Login />
+          }
+        />
 
-        <Route path='/cart' element={<MyCart getProducts={getProducts} getCart={getCart}/>} />
+        <Route path='/cart' element=
+          { user.id ?
+            <MyCart getProducts={getProducts} getCart={getCart}/>
+          :
+            <Login />
+          }
+        />
 
-        <Route path='/orders' element={<MyOrders  getCart={getCart}/>} />
+        <Route path='/orders' element=
+          { user.id ?
+            <MyOrders getCart={getCart}/>
+          :
+            <Login />
+          }
+        />
 
-        <Route path='/category' element={<Category />} />
+        <Route path='/category' element=
+          {<Category />
+          }
+        />
 
         <Route path='/category/:name' element={<AllProducts />} />
 

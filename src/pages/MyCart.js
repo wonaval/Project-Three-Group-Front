@@ -5,116 +5,86 @@ import env from 'react-dotenv'
 import './MyCart.css';
 
 const MyCart = (props) => {
-
-    const { userState, cartState, productState } = useContext(UserContext)
-    const [ cart, setCart ] = useState([])
+    // useContexts
+    const { cartState, productState } = useContext(UserContext)
     const [ products, setProducts ] = productState
+    const [ cart, setCart] = cartState
+    
+    // useStates
     const [ cartInfo, setCartInfo ] = useState([])
     const [loading, setLoading] = useState(false);
 
 
 
-    useEffect(async ()=>{
-        await props.getProducts();
-    }, [])
+        // useEffect(async ()=>{
+        //     await props.getProducts();
+        // }, [])
 
-    // GET cart and sets to userState context if username is in localstorage
-    const getCart = async () => {
-        const userId = localStorage.getItem('userId')
+    // Converts cartState context into productInfo to be displayed
+        const itemInfo = async () => {
         try {
-        if(userId) {
-            // GET cart from backend
 
-            setLoading(true)
+            console.log(products)
 
-            const userId = localStorage.getItem('userId')
+            console.log(cart)
 
-            const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
-                headers: { Authorization: userId }
+
+            const infoList = cart.map((item)=>{
+                    return (products.find((product)=>{ return (product.id === item.itemId) }))
             })
-
-            const cartList = cartResponse.data.items;
-
-            await setCart(cartList)
-
-            const cross = cartList.map((item)=>{
-                return products.find((product)=> product.id === item.itemId)
-            })
-
-            await setCartInfo(cross)
-
-            setTimeout(()=>{setLoading(false)}, 2000)
             
-        }
+            setCartInfo([...infoList])
+            console.log(cartInfo)
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    const removeFromCart = async (itemId) => {
-        const userId = localStorage.getItem('userId')
-        try{
-            const cartResponse = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`,{
-                headers: { Authorization: userId }
+    // Removes item form backend
+    const removeItem = async (itemId) => {
+        try {
+            console.log('ItemId', itemId)
+            const userId = localStorage.getItem('userId');
+            const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
+                headers: { Authorization: userId}
             })
-            console.log(cartResponse)
-            await getCart();
+            await props.getCart();
+        } catch (error) {
+            console.log(error.message)
         }
-        catch(error){console.log(error)}
-        
     }
-    
 
-    useEffect(async ()=>{
-        await getCart();
+    useEffect(()=>{
+        itemInfo();
     }, [])
 
     return (
         <div>
             Cart Page
             <div>
-
-
-                {loading ?
-                
-                    <><h1>loading...</h1></>
-                :
-
-                    <>
-
-                        { cartInfo.map((item, i)=>{
-                            return (
-
-
-                                // console.log(cart[i])
-
-                            // <div>{cart[i].checkedOut}</div>
-
-                            <>
-                                {cart[i].checkedOut ?
-                                    null
-                                :
-                                    <div key={i}>
-                                        <span><img src={item.image} className='cart-item-imgs' /></span>
-                                        <span>{item.name}</span>
-                                        <span><button onClick={()=>{
-                                            removeFromCart(item.id)
-                                        }}>Remove</button></span>
-                                    </div>
-                                }
-                            
-                            </>
-                                
-                            )
-                        }) }
-                    
-                    </>
-                   
-            
-                }
-
-
-                
+                {cartInfo.map((item, i) => {
+                    return (
+                        <div className='cartItem' key={i}>
+                            { cart[i].checkedOut ?
+                                null
+                            :
+                                <span>
+                                    <img src={item.image} alt={item.name} />
+                                    {item.itemId}
+                                    {item.name}
+                                    ${item.price}
+                                    <button
+                                        value={cart[i].itemId}
+                                        onClick={(event)=>{
+                                            removeItem(event.target.value)
+                                        }}
+                                    > Remove </button>
+                                </span>
+                            }
+                        </div>
+                    )
+                })}
+                <button onClick={()=>{}}>Checkout</button>
             </div>
         </div>
     )
