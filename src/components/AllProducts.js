@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import env from 'react-dotenv'
@@ -40,43 +40,27 @@ const AllProducts = () => {
     useEffect(()=>{loadProducts(); console.log(user.password)}, [])
     return (
         <div>
-
-            {products.map((item, i) => {
-
-                // {console.log(item.category)}
-
-                return(
-                    <div key={item.id}>
-                        {item.category === name ?
-                        
-                    
-                            <>
-                            
-                                <h1>{item.name}</h1>
-                                <p>{item.description}</p>
-                                <img src={item.image} alt={`Image of ${item.name}`} />
-                                <button onClick={()=>{addToCartClick(item.id)}}>Add to cart</button>
-                            
-                            </>
-                            
-                        :
-
-
-                            null
-                    
-                    
-                    
-                        }
-                
-                    </div>
-
-                ) 
-            })}
-                
-                
-
-            
-            
+            <div>
+                <Link to='/category'>Back to Categories</Link>
+            </div>
+            <div>
+                {products.map((item, i) => {
+                    return(
+                        <div key={item.id}>
+                            {item.category === name ?
+                                <>
+                                    <h1>{item.name}</h1>
+                                    <p>{item.description}</p>
+                                    <img src={item.image} alt={`Image of ${item.name}`} />
+                                    <button onClick={()=>{addToCartClick(item.id)}}>Add to cart</button>
+                                </>
+                            :
+                                null
+                            }
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }
