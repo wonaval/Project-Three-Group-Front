@@ -4,24 +4,45 @@ import axios from 'axios'
 import env from 'react-dotenv'
 
 const MyCart = (props) => {
-    const { userState, cartState, productState } = useContext(UserContext)
+    // useContexts
+    const { cartState, productState } = useContext(UserContext)
     const [ products, setProducts ] = productState
-    const [ cart, setCart ] = cartState
-    const [ cartList, setCartList ] = useState([])
-    const [ cartInfo, setCartInfo] = useState([])
+    const [ cart, setCart] = cartState
+    
+    // useStates
+    const [ cartInfo, setCartInfo ] = useState([])
 
-
-
-    const removeItem = async (itemId) => {
+    // Converts cartState context into productInfo to be displayed
+        const itemInfo = async () => {
         try {
-            console.log(itemId)
-            const userId = localStorage.getItem('userId');
-            const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
-            headers: { Authorization: userId}})
+            const infoList = cart.map((item)=>{
+                    return (products.find((product)=>{ return (product.id === item.itemId) }))
+            })
+            
+            setCartInfo([...infoList])
+            console.log(cartInfo)
         } catch (error) {
             console.log(error.message)
         }
     }
+
+    // Removes item form backend
+    const removeItem = async (itemId) => {
+        try {
+            console.log('ItemId', itemId)
+            const userId = localStorage.getItem('userId');
+            const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
+                headers: { Authorization: userId}
+            })
+            props.getCart();
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    useEffect(()=>{
+        itemInfo();
+    }, [])
 
     return (
         <div>
@@ -29,15 +50,23 @@ const MyCart = (props) => {
             <div>
                 {cartInfo.map((item, i) => {
                     return (
-                        <div className='cartItem'>
-                            <span key={i}>
-                                <img src={item.image} style={{ width: "100px" }} alt={item.name} />
-                                {item.itemId}
-                                {item.name}
-                                ${item.price}
-                                <button onClick={(event)=>{removeItem(event.target.value)}}>Remove</button>
-
-                            </span>
+                        <div className='cartItem' key={i}>
+                            { cart[i].checkedOut ?
+                                null
+                            :
+                                <span>
+                                    <img src={item.image} alt={item.name} />
+                                    {item.itemId}
+                                    {item.name}
+                                    ${item.price}
+                                    <button
+                                        value={cart[i].itemId}
+                                        onClick={(event)=>{
+                                            removeItem(event.target.value)
+                                        }}
+                                    > Remove </button>
+                                </span>
+                            }
                         </div>
                     )
                 })}

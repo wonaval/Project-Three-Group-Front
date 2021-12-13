@@ -17,8 +17,6 @@ import { UserContext } from './context/UserContext';
 import axios from 'axios'
 
 function App() {
-  const value = useContext(UserContext)
-
   const { userState, cartState, productState } = useContext(UserContext)
   const [ user, setUser ] = userState
   const [ cart, setCart ] = cartState
@@ -50,10 +48,8 @@ function App() {
         const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
         })
-        console.log(cartResponse)
         // Set cart hook
-        setCart(cartResponse.data.items)
-
+        await setCart(cartResponse.data.item)
       }
     } catch (error) {
         console.log(error.message)
@@ -78,6 +74,10 @@ function App() {
     getCart();
     getProducts();
   }, [])
+
+  useEffect(()=>{
+    getCart();
+  }, [user.id])
 
   return (
     <div className="App">
@@ -106,7 +106,7 @@ function App() {
 
         <Route path='/cart' element=
           { user.id ?
-            <MyCart />
+            <MyCart getCart={getCart}/>
           :
             <Login />
           }
@@ -114,7 +114,7 @@ function App() {
 
         <Route path='/orders' element=
           { user.id ?
-            <MyOrders  />
+            <MyOrders getCart={getCart}/>
           :
             <Login />
           }
