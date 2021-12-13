@@ -4,6 +4,7 @@ import axios from 'axios'
 import env from 'react-dotenv'
 import CheckOut from '../components/CheckOut'
 import './MyCart.css';
+import LoadingScreen from '../components/LoadingScreen'
 
 const MyCart = (props) => {
     // useContexts
@@ -41,7 +42,8 @@ const MyCart = (props) => {
             })
             setCartInfo([...infoList])
 
-            setLoading(false)
+            setTimeout(()=>{setLoading(false)}, 3000)
+            
         } catch (error) {
             console.log(error.message)
         }
@@ -71,7 +73,7 @@ const MyCart = (props) => {
         
             {loading ?
             
-                <><h1>loading...</h1></>
+                <LoadingScreen />
             :
             <div>
                 Cart Page
