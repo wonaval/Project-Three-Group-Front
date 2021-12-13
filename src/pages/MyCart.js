@@ -2,12 +2,14 @@ import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import axios from 'axios'
 import env from 'react-dotenv'
+import CheckOut from '../components/CheckOut'
 
 const MyCart = (props) => {
     // useContexts
     const { cartState, productState } = useContext(UserContext)
     const [ products, setProducts ] = productState
     const [ cart, setCart] = cartState
+    const [ showCheckout, setShowCheckout] = useState(false)
     
     // useStates
     const [ cartInfo, setCartInfo ] = useState([])
@@ -15,18 +17,17 @@ const MyCart = (props) => {
     // Converts cartState context into productInfo to be displayed
         const itemInfo = async () => {
         try {
+            console.log(cart)
             const infoList = cart.map((item)=>{
-                    return (products.find((product)=>{ return (product.id === item.itemId) }))
+                return (products.find((product)=>{ return (product.id === item.itemId) }))
             })
-            
             setCartInfo([...infoList])
-            console.log(cartInfo)
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    // Removes item form backend
+    // Removes item from backend
     const removeItem = async (itemId) => {
         try {
             console.log('ItemId', itemId)
@@ -70,8 +71,18 @@ const MyCart = (props) => {
                         </div>
                     )
                 })}
-                <button onClick={()=>{}}>Checkout</button>
             </div>
+
+            { showCheckout ?
+            <div>
+                <CheckOut />
+                <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
+            </div>
+            :
+            <div>
+                <button onClick={()=>{setShowCheckout(true)}}>Checkout</button>
+            </div>
+            }
         </div>
     )
 }

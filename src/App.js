@@ -4,6 +4,7 @@ import env from 'react-dotenv'
 
 // imports components and pages
 import Signup from './pages/Signup';
+import ItemDetails from './components/ItemDetails';
 import Login from './pages/Login';
 import MyCart from './pages/MyCart';
 import MyOrders from './pages/MyOrders';
@@ -43,14 +44,12 @@ function App() {
   const getCart = async () => {
     const userId = localStorage.getItem('userId')
     try {
-      if(userId) {
         // GET cart from backend
         const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
         })
         // Set cart hook
-        await setCart(cartResponse.data.item)
-      }
+        await setCart([...cartResponse.data.item])
     } catch (error) {
         console.log(error.message)
     }
@@ -125,7 +124,9 @@ function App() {
           }
         />
 
-        <Route path='/category/:name' element={<AllProducts />} />
+        <Route path='/category/:name' element={<AllProducts getCart={getCart}/>} />
+
+        <Route path='/item/:id' element={<ItemDetails getCart={getCart}/>} />
 
       </Routes>
       

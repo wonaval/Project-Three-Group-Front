@@ -5,7 +5,7 @@ import { UserContext } from '../context/UserContext'
 import env from 'react-dotenv'
 import axios from 'axios'
 
-const AllProducts = () => {
+const AllProducts = (props) => {
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
 
@@ -33,11 +33,14 @@ const AllProducts = () => {
                 Authorization: user.id
             }
         })
-
+        props.getCart();
         console.log(response)
     }
 
-    useEffect(()=>{loadProducts(); console.log(user.password)}, [])
+    useEffect(()=>{
+        loadProducts()
+    }, [])
+
     return (
         <div>
             <div>
@@ -49,8 +52,7 @@ const AllProducts = () => {
                         <div key={item.id}>
                             {item.category === name ?
                                 <>
-                                    <h1>{item.name}</h1>
-                                    <p>{item.description}</p>
+                                    <h1><Link to={`/item/${item.id}`}>{item.name}</Link></h1>
                                     <img src={item.image} alt={`Image of ${item.name}`} />
                                     <button onClick={()=>{addToCartClick(item.id)}}>Add to cart</button>
                                 </>
