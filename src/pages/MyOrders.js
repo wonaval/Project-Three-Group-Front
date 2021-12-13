@@ -42,8 +42,17 @@ const MyOrders = (props) => {
     const List1 = [...new Set(cart.map(item => item.checkoutDate))]
 
     console.log(List1)
-    // setUniqueDate(List)
+    setUniqueDate(List1)
 
+  }
+
+  const getOrderDate = (cartDate) => {
+
+    for (let date of uniqueDate){
+      if(date === cartDate){
+        return date
+      }
+    }
   }
 
 
@@ -62,13 +71,14 @@ const MyOrders = (props) => {
         { cartInfo.map((item, i) => {
           return (
               <div className='cartItem' key={i}>
-                  { cart[i].checkedOut ?
-                    <span>
+                {console.log(getOrderDate(cart[i].checkoutDate))}
+                  { getOrderDate(cart[i].checkoutDate) === cart[i].checkoutDate ?
+                    <div>
                       <img src={item.image} alt={item.name} />
                       {cart[i].checkoutDate}
                       {item.name}
                       ${item.price}
-                    </span>
+                    </div>
                   :
                     null
                   }
