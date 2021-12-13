@@ -9,7 +9,7 @@ const Login = (props) => {
   // WILL - This is the useContext syntax added
   // User info will be sved to userState so we know which page should show what
     const { userState } = useContext(UserContext)
-    const [ setUser ] = userState
+    const [ user, setUser ] = userState
     const [ email, setEmail] = useState('')
     const [ password, setPassword] = useState('')
     
@@ -30,23 +30,26 @@ const Login = (props) => {
     }
 
     return (
+      <div>
+        <div>Login</div>
         <div>
-      <form onSubmit={submitForm}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-          
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
+          <form onSubmit={submitForm}>
+            <div>
+              <label htmlFor="email">Email:</label>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+              
+            <div>
+              <label htmlFor="password">Password:</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
 
-        <div>
-          <input type="submit" value="Login" />
+            <div>
+              <input type="submit" value="Login" />
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      </div>
     )
 }
 

@@ -1,4 +1,5 @@
 import './App.css';
+import {Route, Routes, Navigate} from 'react-router-dom'
 import env from 'react-dotenv'
 
 // imports components and pages
@@ -35,29 +36,24 @@ function App() {
           }
         })
         setUser(response.data.user)
-        await getCart();
       }
     }
     catch (error) { console.log(error) }
   }
 
-
-  // GET cart and sets to userState context if username is in localstorage
+  // GET cart and sets to cartState context
   const getCart = async () => {
     const userId = localStorage.getItem('userId')
     try {
       if(userId) {
         // GET cart from backend
-        const userId = localStorage.getItem('userId')
         const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
         })
-
+        console.log(cartResponse)
         // Set cart hook
-        await setCart(cartResponse.data.items)
+        setCart(cartResponse.data.items)
 
-        // Confirmation
-        await console.log('My Cart retrieved')
       }
     } catch (error) {
         console.log(error.message)
@@ -79,14 +75,9 @@ function App() {
   // useEffect - On load functions
   useEffect(()=>{
     fetchUser();
+    getCart();
     getProducts();
   }, [])
-
-  // useEffect - Load on change of userState
-
-  useEffect(()=>{
-    getCart();
-  }, [user])
 
   return (
     <div className="App">
@@ -96,15 +87,43 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Category />} />
-        <Route  path='/signup'  element={<Signup />} />
 
-        <Route path='/login' element={<Login getCart={getCart}/>} />
+        <Route path='/signup'  element=
+          { user.id ?
+              <Navigate to='/category'/>
+            :
+              <Signup />
+          }
+        />
 
-        <Route path='/cart' element={<MyCart  getCart={getCart}/>} />
+        <Route path='/login' element=
+          { user.id ?
+            <Navigate to='/category'/>
+          :
+            <Login />
+          }
+        />
 
-        <Route path='/orders' element={<MyOrders  getCart={getCart}/>} />
+        <Route path='/cart' element=
+          { user.id ?
+            <MyCart />
+          :
+            <Login />
+          }
+        />
 
-        <Route path='/category' element={<Category />} />
+        <Route path='/orders' element=
+          { user.id ?
+            <MyOrders  />
+          :
+            <Login />
+          }
+        />
+
+        <Route path='/category' element=
+          {<Category />
+          }
+        />
 
         <Route path='/category/:name' element={<AllProducts />} />
 

@@ -5,7 +5,7 @@ import { UserContext } from '../context/UserContext'
 const Header = (props) => {
     const { userState, cartState } = useContext(UserContext)
     const [ user, setUser ] = userState
-    const [ setCart ] = cartState
+    const [ cart, setCart ] = cartState
 
 
     return (
@@ -18,7 +18,7 @@ const Header = (props) => {
                             Category
                         </Link>
                     </li>
-                { user ?
+                { user.id ?
                     <>
                         <li>
                             <Link
@@ -35,13 +35,13 @@ const Header = (props) => {
                         </li>
 
                         <li>
-                            <span 
+                            <Link to='/'
                             onClick={()=>{
-                                localStorage.removeItem('userId')
                                 setUser({})
                                 setCart([])
+                                localStorage.removeItem('userId')
                             }}
-                            >Logout</span>
+                            >Logout</Link>
                         </li>
                     </>
                 :

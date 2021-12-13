@@ -32,26 +32,29 @@ const Signup = () => {
 
     }
     return (
-        <div>
-      <form onSubmit={submitForm}>
       <div>
-          <label htmlFor="name">Name:</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} />
-        </div>
+        <div>Sign-Up</div>
         <div>
-          <label htmlFor="email">Email:</label>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-          
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
+          <form onSubmit={submitForm}>
+          <div>
+              <label htmlFor="name">Name:</label>
+              <input value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <div>
+              <label htmlFor="email">Email:</label>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+              
+            <div>
+              <label htmlFor="password">Password:</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
 
-        <div>
-          <input type="submit" value="Sign Up!" />
+            <div>
+              <input type="submit" value="Sign Up!" />
+            </div>
+          </form>
         </div>
-      </form>
     </div>
     )
 }
