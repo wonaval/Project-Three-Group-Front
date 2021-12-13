@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
+import env from 'react-dotenv'
 
 const CheckOut = () => {
   // useState
@@ -10,11 +11,13 @@ const CheckOut = () => {
     try {
       e.preventDefault()
       const userId = localStorage.getItem('userId')
-      await axios.put('/cart', {
-      headers : { Authorization : userId }
-      })
-      console.log('Checked out!')
+      console.log(userId)
+      const response = await axios.post(`${env.BACKEND_URL}/cart/update`, 
+        { id: userId }
+      )
+      console.log('Checked out!', response)
     } catch (error) {
+      
         console.log(error.message)
     }
   }
@@ -24,9 +27,9 @@ const CheckOut = () => {
     <div>
       <form onSubmit={submitForm}>
         <label htmlFor='address'>Address:</label>
-        <input type='text' placeholder='Enter address...' onChange={(e)=>{setAddress(e.target.value)}}/>
+        <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
         <label htmlFor='creditCard'>Credit-card:</label>
-        <input type='text' placeholder='Enter credit card...' onChange={(e)=>{setCredit(e.target.value)}}/>
+        <input type='text' placeholder='Enter credit card...' value={credit} onChange={(e)=>{setCredit(e.target.value)}}/>
         <input type='submit'/>
       </form>
     </div>

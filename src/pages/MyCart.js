@@ -34,15 +34,15 @@ const MyCart = (props) => {
                 headers: { Authorization: userId }
             })
 
+            const userCart = await cartResponse.data.items
 
-            const userCart = cartResponse.data.items
-
-            const infoList = userCart.map((item)=>{
+            const infoList = await userCart.map((item)=>{
                 return (products.find((product)=>{ return (product.id === item.itemId) }))
             })
-            setCartInfo([...infoList])
 
-            setTimeout(()=>{setLoading(false)}, 3000)
+            await setCartInfo([...infoList])
+
+            setTimeout(()=>{setLoading(false)}, 2000)
             
         } catch (error) {
             console.log(error.message)
