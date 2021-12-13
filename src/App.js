@@ -16,6 +16,7 @@ import { useContext, useEffect } from 'react';
 import { UserContext } from './context/UserContext';
 
 import axios from 'axios'
+import LoadingScreen from './components/LoadingScreen';
 
 function App() {
   const { userState, cartState, productState } = useContext(UserContext)
@@ -88,6 +89,8 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Category />} />
+
+        <Route path='/loading' element={<LoadingScreen />} />
 
         <Route path='/signup'  element=
           { user.id ?
