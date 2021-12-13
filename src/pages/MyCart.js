@@ -10,11 +10,11 @@ const MyCart = (props) => {
     const { cartState, productState } = useContext(UserContext)
     const [ products, setProducts ] = productState
     const [ cart, setCart] = cartState
-    const [ showCheckout, setShowCheckout] = useState(false)
     
     // useStates
     const [ cartInfo, setCartInfo ] = useState([])
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [ showCheckout, setShowCheckout] = useState(false)
 
 
 

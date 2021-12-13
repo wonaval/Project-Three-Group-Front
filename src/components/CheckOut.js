@@ -8,12 +8,12 @@ const CheckOut = () => {
 
   const submitForm = async (e) => {
     try {
-        const userId = localStorage.getItem('userId')
-        e.preventDefault()
-        await axios.put('/cart', {
-        headers : { Authorization : userId }
-        })
-        console.log('Checked out!')
+      e.preventDefault()
+      const userId = localStorage.getItem('userId')
+      await axios.put('/cart', {
+      headers : { Authorization : userId }
+      })
+      console.log('Checked out!')
     } catch (error) {
         console.log(error.message)
     }
@@ -27,7 +27,7 @@ const CheckOut = () => {
         <input type='text' placeholder='Enter address...' onChange={(e)=>{setAddress(e.target.value)}}/>
         <label htmlFor='creditCard'>Credit-card:</label>
         <input type='text' placeholder='Enter credit card...' onChange={(e)=>{setCredit(e.target.value)}}/>
-        <button>Checkout</button>
+        <input type='submit'/>
       </form>
     </div>
   )
