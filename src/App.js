@@ -51,7 +51,7 @@ function App() {
 
         // console.log(cartResponse)
         // Set cart hook
-        await setCart([cartResponse.data.items, ...cart])
+        await setCart(cartResponse.data.items)
     } catch (error) {
         console.log(error.message)
     }

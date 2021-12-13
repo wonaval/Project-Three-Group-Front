@@ -25,11 +25,23 @@ const MyCart = (props) => {
     // Converts cartState context into productInfo to be displayed
     const itemInfo = async () => {
         try {
-            console.log(cart)
-            const infoList = cart.map((item)=>{
+            const userId = localStorage.getItem('userId')
+
+            setLoading(true)
+
+            const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
+                headers: { Authorization: userId }
+            })
+
+
+            const userCart = cartResponse.data.items
+
+            const infoList = userCart.map((item)=>{
                 return (products.find((product)=>{ return (product.id === item.itemId) }))
             })
             setCartInfo([...infoList])
+
+            setLoading(false)
         } catch (error) {
             console.log(error.message)
         }
@@ -43,7 +55,7 @@ const MyCart = (props) => {
             const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
                 headers: { Authorization: userId}
             })
-            await props.getCart();
+            await itemInfo();
         } catch (error) {
             console.log(error.message)
         }
@@ -54,44 +66,55 @@ const MyCart = (props) => {
     }, [])
 
     return (
-        <div>
-            Cart Page
-            <div>
-                {cartInfo.map((item, i) => {
-                    return (
-                        <div className='cartItem' key={i}>
-                            { cart[i].checkedOut ?
-                                null
-                            :
-                                <span>
-                                    <img src={item.image} alt={item.name} />
-                                    {item.itemId}
-                                    {item.name}
-                                    ${item.price}
-                                    <button
-                                        value={cart[i].itemId}
-                                        onClick={(event)=>{
-                                            removeItem(event.target.value)
-                                        }}
-                                    > Remove </button>
-                                </span>
-                            }
-                        </div>
-                    )
-                })}
-            </div>
 
-            { showCheckout ?
-            <div>
-                <CheckOut />
-                <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
-            </div>
+        <>
+        
+            {loading ?
+            
+                <><h1>loading...</h1></>
             :
             <div>
-                <button onClick={()=>{setShowCheckout(true)}}>Checkout</button>
+                Cart Page
+                <div>
+                    {cartInfo.map((item, i) => {
+                        console.log(item)
+                        return (
+                            <div className='cartItem' key={i}>
+                                { cart[i].checkedOut ?
+                                    null
+                                :
+                                    <span>
+                                        <img src={item.image} alt={item.name} />
+                                        {item.name}
+                                        ${item.price}
+                                        <button
+                                            // value={cart[i].itemId}
+                                            onClick={()=>{
+                                                removeItem(item.id)
+                                            }}
+                                        > Remove </button>
+                                    </span>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+
+                { showCheckout ?
+                <div>
+                    <CheckOut />
+                    <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
+                </div>
+                :
+                <div>
+                    <button onClick={()=>{setShowCheckout(true)}}>Checkout</button>
+                </div>
+                }
             </div>
-            }
-        </div>
+        
+        }
+        </>
+        
     )
 }
 
