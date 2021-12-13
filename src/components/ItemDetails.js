@@ -25,7 +25,7 @@ const ItemDetails = (props) => {
 
     const addToCartClick = async (itemId) => {
         try {
-            const response = await axios.post(`${env.BACKEND_URL}/cart`, {id : id}, {
+            const response = await axios.post(`${env.BACKEND_URL}/cart`, {itemId : id}, {
                 headers: {
                     Authorization: localStorage.getItem('userId')
                 }

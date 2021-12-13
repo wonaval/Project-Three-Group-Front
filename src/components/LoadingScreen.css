@@ -12,7 +12,7 @@
   width: 80px;
   display: flex;
   flex-wrap: wrap;
-  animation: rotate 3s linear infinite;
+  animation: rotate 3s cubic-bezier(0.76, 0.38, 0.19, 0.66) infinite;
 }
 
 @keyframes rotate {
