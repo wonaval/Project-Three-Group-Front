@@ -22,7 +22,6 @@ const CheckOut = (props) => {
     try {
       e.preventDefault()
       const userId = localStorage.getItem('userId')
-      console.log(userId)
       const response = await axios.post(`${env.BACKEND_URL}/cart/update`, 
         { id: userId,
           credit: credit,
@@ -31,12 +30,11 @@ const CheckOut = (props) => {
       )
 
       console.log('Checked out!', response.data.carts)
-      await setCart([...cart, response.data.carts])
+      setCart([response.data.carts, ...cart])
       // console.log(cart)
 
       setTimeout(()=>{navigate('/orders')}, 5000) 
     } catch (error) {
-      
         console.log(error.message)
     }
   }
