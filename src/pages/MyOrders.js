@@ -1,17 +1,19 @@
 import { UserContext } from "../context/UserContext"
 import { useState, useContext, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from "axios"
 import env from 'react-dotenv'
 
 const MyOrders = (props) => {
   // useContexts
-  const { cartState, productState } = useContext(UserContext)
+  const { cartState, productState, dateState } = useContext(UserContext)
   const [ products, setProducts ] = productState
   const [ cart, setCart ] = cartState
+  const [ uniqueDate, setUniqueDate ] = dateState
   
   // useStates
   const [ cartInfo, setCartInfo ] = useState([])
-  const [ uniqueDate, setUniqueDate ] = useState([])
+  // const [ uniqueDate, setUniqueDate ] = useState([])
 
 
   // Converts cartState context into productInfo to be displayed
@@ -56,11 +58,11 @@ const MyOrders = (props) => {
   }
 
 
-  useEffect(async ()=>{
-    await props.getCart();
+  useEffect(()=>{
+    props.getCart();
     console.log(cart)
-    await itemInfo();
-    await getCartDate()
+    itemInfo();
+    getCartDate()
   }, [])
 
   return (
@@ -68,7 +70,17 @@ const MyOrders = (props) => {
       <div>My Previous Orders</div>
         <div>
           {/* {console.log(cart)} */}
-        { cartInfo.map((item, i) => {
+          { uniqueDate.map((date, i)=>{
+            return(
+              <div key={i}>
+                <Link to={`/orders/${i}`}> {date} </Link>
+              </div>
+            )
+          })
+          }
+
+
+        {/* { .map((item, i) => {
           return (
               <div className='cartItem' key={i}>
                 {console.log(getOrderDate(cart[i].checkoutDate))}
@@ -84,7 +96,7 @@ const MyOrders = (props) => {
                   }
               </div>
           )
-        })}
+        })} */}
         </div>
     </div>
   )
