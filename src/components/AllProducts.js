@@ -30,11 +30,10 @@ const AllProducts = (props) => {
     const addToCartClick = async (itemId) => {
         const response = await axios.post(`${env.BACKEND_URL}/cart`, {id : itemId}, {
             headers: {
-                Authorization: user.id
+                Authorization: localStorage.getItem('userId')
             }
         })
         props.getCart();
-        console.log(response)
     }
 
     useEffect(()=>{

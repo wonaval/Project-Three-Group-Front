@@ -9,11 +9,13 @@ const UserProvider = ({children}) => {
   const [ user, setUser ] = useState({})
   const [ cart, setCart ] = useState([])
   const [ products, setProducts ] = useState([])
+  const [ date, setDate ] = useState([])
 
   const state = {
     userState: [ user, setUser ],
     cartState: [ cart, setCart ],
-    productState: [ products, setProducts ]
+    productState: [ products, setProducts ],
+    dateState: [ date, setDate]
   }
 
   return (

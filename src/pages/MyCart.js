@@ -14,7 +14,7 @@ const MyCart = (props) => {
     
     // useStates
     const [ cartInfo, setCartInfo ] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [ loading, setLoading ] = useState(false)
     const [ showCheckout, setShowCheckout] = useState(false)
 
 
@@ -77,34 +77,39 @@ const MyCart = (props) => {
             :
             <div>
                 Cart Page
-                <div>
-                    {cartInfo.map((item, i) => {
-                        console.log(item)
-                        return (
-                            <div className='cartItem' key={i}>
-                                { cart[i].checkedOut ?
-                                    null
-                                :
-                                    <span>
-                                        <img src={item.image} alt={item.name} />
-                                        {item.name}
-                                        ${item.price}
-                                        <button
-                                            // value={cart[i].itemId}
-                                            onClick={()=>{
-                                                removeItem(item.id)
-                                            }}
-                                        > Remove </button>
-                                    </span>
-                                }
-                            </div>
-                        )
-                    })}
+                <div>{ cartInfo.length ?
+                        <>
+                            {cartInfo.map((item, i) => {
+                                // console.log(item)
+                                return (
+                                    <div className='cartItem' key={i}>
+                                        { cart[i].checkedOut ?
+                                            null
+                                        :
+                                            <span>
+                                                <img src={item.image} alt={item.name} />
+                                                {item.name}
+                                                ${item.price}
+                                                <button
+                                                    // value={cart[i].itemId}
+                                                    onClick={()=>{
+                                                        removeItem(item.id)
+                                                    }}
+                                                > Remove </button>
+                                            </span>
+                                        }
+                                    </div>
+                                )
+                            })}
+                        </>
+                    :
+                        null
+                    }
                 </div>
 
                 { showCheckout ?
                 <div>
-                    <CheckOut />
+                    <CheckOut cartInfo={cartInfo} />
                     <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
                 </div>
                 :

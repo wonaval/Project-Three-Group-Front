@@ -1,11 +1,22 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { UserContext } from "../context/UserContext"
 import axios from 'axios'
 import env from 'react-dotenv'
+import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-const CheckOut = () => {
+const CheckOut = (props) => {
+
+  // useContext
+  const { cartState } = useContext(UserContext)
+  const [ cart, setCart ] = cartState
+
+
   // useState
   const [ address, setAddress ] = useState('')
   const [ credit, setCredit ] = useState('')
+
+  const navigate = useNavigate()
 
   const submitForm = async (e) => {
     try {
@@ -13,19 +24,38 @@ const CheckOut = () => {
       const userId = localStorage.getItem('userId')
       console.log(userId)
       const response = await axios.post(`${env.BACKEND_URL}/cart/update`, 
-        { id: userId }
+        { id: userId,
+          credit: credit,
+          address: address
+        }
       )
-      console.log('Checked out!', response)
+
+      console.log('Checked out!', response.data.carts)
+      setCart([...cart, response.data.carts])
+      // console.log(cart)
+
+      await navigate('/orders')
     } catch (error) {
       
-
         console.log(error.message)
     }
+  }
+
+  const orderTotal = () => {
+    let sum = 0;
+    
+    cart.map((item, i) => {
+      if(item.checkedOut === false && cart.length) {
+        sum = sum + props.cartInfo[i].price
+      }
+    })
+    return sum;
   }
 
 
   return (
     <div>
+      <div>SUBTOTAL: ${orderTotal()}</div>
       <form onSubmit={(e)=>{submitForm(e)}}>
         <label htmlFor='address'>Address:</label>
         <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
