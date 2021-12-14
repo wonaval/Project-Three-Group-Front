@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { UserContext } from "../context/UserContext"
 import axios from 'axios'
 import env from 'react-dotenv'
@@ -62,6 +62,8 @@ const CheckOut = (props) => {
     }
   }
 
+  useEffect(()=>{getCart()},[])
+
   const orderTotal = () => {
     let sum = 0;
     
@@ -76,11 +78,11 @@ const CheckOut = (props) => {
 
   return (
     <div>
-      {loading ?
+      {/* {loading ?
       
         <LoadingScreen />
     
-        :
+        : */}
         <>
         
           <div>SUBTOTAL: ${orderTotal()}</div>
@@ -96,7 +98,7 @@ const CheckOut = (props) => {
         
     
     
-      }
+      {/* } */}
       </div>
   )
 }

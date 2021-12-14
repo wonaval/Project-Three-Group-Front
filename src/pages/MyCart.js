@@ -37,6 +37,8 @@ const MyCart = (props) => {
 
             const userCart = await cartResponse.data.items
 
+            await setCart(userCart)
+
             const infoList = await userCart.map((item)=>{
                 return (products.find((product)=>{ return (product.id === item.itemId) }))
             })
