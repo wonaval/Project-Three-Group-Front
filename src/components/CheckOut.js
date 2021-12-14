@@ -4,19 +4,40 @@ import axios from 'axios'
 import env from 'react-dotenv'
 import { Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import LoadingScreen from './LoadingScreen'
 
 const CheckOut = (props) => {
 
   // useContext
-  const { cartState } = useContext(UserContext)
+  const { cartState, loadingState } = useContext(UserContext)
   const [ cart, setCart ] = cartState
-
+  const [loading, setLoading] = loadingState
 
   // useState
   const [ address, setAddress ] = useState('')
   const [ credit, setCredit ] = useState('')
 
   const navigate = useNavigate()
+
+
+  const getCart = async () => {
+    const userId = localStorage.getItem('userId')
+    try {
+        setLoading(true)
+        // GET cart from backend
+        const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
+            headers: { Authorization: userId }
+        })
+
+        // console.log(cartResponse)
+        // Set cart hook
+        await setCart(cartResponse.data.items)
+
+        setLoading(false)
+    } catch (error) {
+        console.log(error.message)
+    }
+  }
 
   const submitForm = async (e) => {
     try {
@@ -32,6 +53,8 @@ const CheckOut = (props) => {
       console.log('Checked out!', response.data.carts)
       // setCart([response.data.carts, ...cart])
       // console.log(cart)
+
+      await getCart()
 
       await navigate('/orders')
     } catch (error) {
@@ -53,15 +76,28 @@ const CheckOut = (props) => {
 
   return (
     <div>
-      <div>SUBTOTAL: ${orderTotal()}</div>
-      <form onSubmit={(e)=>{submitForm(e)}}>
-        <label htmlFor='address'>Address:</label>
-        <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
-        <label htmlFor='creditCard'>Credit-card:</label>
-        <input type='text' placeholder='Enter credit card...' value={credit} onChange={(e)=>{setCredit(e.target.value)}}/>
-        <input type='submit'/>
-      </form>
-    </div>
+      {loading ?
+      
+        <LoadingScreen />
+    
+        :
+        <>
+        
+          <div>SUBTOTAL: ${orderTotal()}</div>
+          <form onSubmit={(e)=>{submitForm(e)}}>
+            <label htmlFor='address'>Address:</label>
+            <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
+            <label htmlFor='creditCard'>Credit-card:</label>
+            <input type='text' placeholder='Enter credit card...' value={credit} onChange={(e)=>{setCredit(e.target.value)}}/>
+            <input type='submit'/>
+          </form>
+
+        </>
+        
+    
+    
+      }
+      </div>
   )
 }
 

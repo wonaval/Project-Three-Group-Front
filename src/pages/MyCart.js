@@ -8,13 +8,14 @@ import LoadingScreen from '../components/LoadingScreen'
 
 const MyCart = (props) => {
     // useContexts
-    const { cartState, productState } = useContext(UserContext)
+    const { cartState, productState, loadingState } = useContext(UserContext)
     const [ products, setProducts ] = productState
     const [ cart, setCart] = cartState
+    const [ loading, setLoading ] = loadingState
     
     // useStates
     const [ cartInfo, setCartInfo ] = useState([])
-    const [ loading, setLoading ] = useState(false)
+    
     const [ showCheckout, setShowCheckout] = useState(false)
 
 
@@ -86,7 +87,6 @@ const MyCart = (props) => {
                                             null
                                         :
                                             <span>
-                                                {console.log(cart[i].id)}
                                                 <img src={item.image} alt={item.name} />
                                                 {item.name}
                                                 ${item.price}
@@ -109,7 +109,7 @@ const MyCart = (props) => {
 
                 { showCheckout ?
                 <div>
-                    <CheckOut cartInfo={cartInfo} />
+                    <CheckOut getCart={props.getCart()} cartInfo={cartInfo} />
                     <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
                 </div>
                 :
