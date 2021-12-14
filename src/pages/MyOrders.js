@@ -83,10 +83,8 @@ const MyOrders = (props) => {
   useEffect(()=>{
     // props.getCart();
     getCart();
-<<<<<<< HEAD
-=======
+
     getCartDate();
->>>>>>> 9ad58bdcfccf484d4a940d187be0d805ec91b43b
     itemInfo();
   }, [])
 
