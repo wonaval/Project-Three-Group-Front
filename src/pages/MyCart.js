@@ -80,20 +80,20 @@ const MyCart = (props) => {
                 <div>{ cartInfo.length ?
                         <>
                             {cartInfo.map((item, i) => {
-                                // console.log(item)
                                 return (
                                     <div className='cartItem' key={i}>
                                         { cart[i].checkedOut ?
                                             null
                                         :
                                             <span>
+                                                {console.log(cart[i].id)}
                                                 <img src={item.image} alt={item.name} />
                                                 {item.name}
                                                 ${item.price}
                                                 <button
                                                     // value={cart[i].itemId}
                                                     onClick={()=>{
-                                                        removeItem(item.id)
+                                                        removeItem(cart[i].id)
                                                     }}
                                                 > Remove </button>
                                             </span>
