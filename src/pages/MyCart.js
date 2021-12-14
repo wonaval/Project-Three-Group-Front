@@ -43,7 +43,7 @@ const MyCart = (props) => {
 
             await setCartInfo([cartInfo, ...infoList])
 
-            // setTimeout(()=>{setLoading(false)}, 2000)
+            setTimeout(()=>{setLoading(false)}, 2000)
             
         } catch (error) {
             console.log(error.message)
@@ -72,13 +72,13 @@ const MyCart = (props) => {
 
         <>
         
-            {loading ?
+            { loading ?
             
                 <LoadingScreen />
             :
             <div>
                 Cart Page
-                <div>{ cartInfo.length ?
+                <div>{ cartInfo.length && cart.length ?
                         <>
                             {cartInfo.map((item, i) => {
                                 return (
