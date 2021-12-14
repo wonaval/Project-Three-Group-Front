@@ -30,13 +30,13 @@ const MyOrders = (props) => {
     }
   }
 
+  // Gets care from backend
   const getCart = async () => {
     try {
       const response = await axios.get(`${env.BACKEND_URL}/cart`, {
       headers: { Authorization: localStorage.getItem('userId')}
     })
-    setCart(response.data.items)
-
+    await setCart(response.data.items)
     } catch (error) {
       console.log(error)
     }
@@ -62,7 +62,7 @@ const MyOrders = (props) => {
     await console.log('DateList', List1)
     await console.log('Cart', cart)
     const sorted = await List1.sort()
-    await setUniqueDate(sorted.reverse())
+    await setUniqueDate(sorted)
 
   }
 
@@ -83,8 +83,8 @@ const MyOrders = (props) => {
   useEffect(()=>{
     // props.getCart();
     getCart();
+    getCartDate();
     itemInfo();
-    getCartDate()
   }, [])
 
 
