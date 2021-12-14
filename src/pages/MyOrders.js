@@ -48,22 +48,12 @@ const MyOrders = (props) => {
 
   }
 
-  const getOrderDate = (cartDate) => {
-
-    for (let date of uniqueDate){
-      if(date === cartDate){
-        return date
-      }
-    }
-  }
-
-
   useEffect(()=>{
     props.getCart();
-    console.log(cart)
     itemInfo();
     getCartDate()
   }, [])
+
 
   return (
     <div>
