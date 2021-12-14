@@ -1,6 +1,4 @@
 import {useState, createContext} from 'react'
-import axios from 'axios'
-import env from 'dotenv'
 
 const UserContext = createContext()
 
