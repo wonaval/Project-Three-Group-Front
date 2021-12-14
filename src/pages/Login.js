@@ -70,6 +70,8 @@ const Login = (props) => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={(e)=>{setEmail(e.target.value)}}
               autoFocus
             />
             <TextField
@@ -81,6 +83,8 @@ const Login = (props) => {
               type="password"
               id="setPassword"
               autoComplete="current-password"
+              value={password}
+              onChange={(e)=>{setPassword(e.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

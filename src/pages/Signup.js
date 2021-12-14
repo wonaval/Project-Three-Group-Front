@@ -23,18 +23,18 @@ const Signup = () => {
   const theme = createTheme();
   // WILL - This is the userContext syntax added
   const { userState } = useContext(UserContext)
-  const [ setUser ] = userState
+  const [ user, setUser ] = userState
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
     const submitForm = async (e) => {
-        e.preventDefault()
         try {
-        // Pulls user from backend
+          e.preventDefault()
+          // Pulls user from backend
           const response = await axios.post(`${env.BACKEND_URL}/user`, { name, email, password })
-
+          console.log(response)
           // Sets user through useContext
           await setUser(response.data.user)
 
@@ -43,8 +43,8 @@ const Signup = () => {
         } catch (error) {
           console.log('Error:', error.mesage)
         }
-
     }
+
     return (
       <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -63,7 +63,7 @@ const Signup = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={submitForm} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={submitForm} noValidate sx={{ mt: 3 }} >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -73,6 +73,8 @@ const Signup = () => {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={name}
+                  onChange={ (e) => {setName(e.target.value)} }
                   autoFocus
                 />
               </Grid>
@@ -94,6 +96,8 @@ const Signup = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={ (e) => {setEmail(e.target.value)} }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -105,6 +109,8 @@ const Signup = () => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={ (e) => {setPassword(e.target.value)} }
                 />
               </Grid>
               <Grid item xs={12}>

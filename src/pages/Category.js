@@ -50,16 +50,16 @@ const Category = () => {
     return (
       <Carousel responsive={responsive}>
       <div>
-        <Link to="/category/bakery"> <img src={Logo} alt={"logo"}/> </Link>
+        <Link to="/category/bakery"> <img src={Logo} alt={"logo"} className='carouselImage'/> </Link>
       </div>
       <div>
-      <Link to="/category/books"> <img src={Logo4} alt={"logo"}/> </Link>
+      <Link to="/category/books"> <img src={Logo4} alt={"logo"} className='carouselImage'/> </Link>
       </div>
       <div>
-        <Link to="/category/electronics"> <img src={Logo2} alt={"logo"}/> </Link>
+        <Link to="/category/electronics"> <img src={Logo2} alt={"logo"} className='carouselImage'/> </Link>
       </div>
       <div>
-        <Link to="/category/plants"> <img src={Logo3} alt={"logo"}/> </Link>
+        <Link to="/category/plants"> <img src={Logo3} alt={"logo"} className='carouselImage'/> </Link>
       </div>
     </Carousel>
     )
