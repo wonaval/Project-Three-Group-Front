@@ -34,6 +34,9 @@ const Category = () => {
             <div>
                 <Link to='/category/electronics'>Electronics</Link>
             </div>
+            <div>
+                <Link to='/category/plants'>Plants</Link>
+            </div>
         </div>
     )
 }

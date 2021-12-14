@@ -48,8 +48,22 @@ const MyOrders = (props) => {
 
   }
 
+  // const formatDate = (test) => {
+  //   const date = new 
+  //   const year = date.getFullYear();
+
+  //   const month = (1 + date.getMonth()).toString();
+
+  //   month = month.length > 1 ? month : '0' + month;
+  
+  //   const day = date.getDate().toString();
+  //   day = day.length > 1 ? day : '0' + day;
+    
+  //   return month + '/' + day + '/' + year;
+  // }
+
   useEffect(()=>{
-    props.getCart();
+    // props.getCart();
     itemInfo();
     getCartDate()
   }, [])
@@ -57,7 +71,7 @@ const MyOrders = (props) => {
 
   return (
     <div>
-      <div>My Previous Orders</div>
+      <div>Previous Orders</div>
         <div>
           {/* {console.log(cart)} */}
           { uniqueDate.map((date, i)=>{

@@ -24,17 +24,17 @@ const CheckOut = (props) => {
       const userId = localStorage.getItem('userId')
       console.log(userId)
       const response = await axios.post(`${env.BACKEND_URL}/cart/update`, 
-        { id: userId }
+        { id: userId,
+          credit: credit,
+          address: address
+        }
       )
 
-      const userResponse =  await axios.post(`${env.BACKEND_URL}/user/update`,
-        { creditCard: credit, address: address },
-        { headers : { Authorization : userId } }
-      )
       console.log('Checked out!', response.data.carts)
-      // setCart([...cart, response.data.carts])
+      setCart([...cart, response.data.carts])
       // console.log(cart)
-      navigate('/orders')
+
+      await navigate('/orders')
     } catch (error) {
       
         console.log(error.message)
