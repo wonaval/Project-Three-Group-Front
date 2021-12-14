@@ -10,7 +10,8 @@ import MyCart from './pages/MyCart';
 import MyOrders from './pages/MyOrders';
 import Category from './pages/Category';
 import Header from './components/Header';
-import AllProducts from './components/AllProducts'
+import AllProducts from './components/AllProducts';
+import OrderDetail from './components/OrderDetail';
 
 import { useContext, useEffect } from 'react';
 import { UserContext } from './context/UserContext';
@@ -53,6 +54,7 @@ function App() {
         // console.log(cartResponse)
         // Set cart hook
         await setCart(cartResponse.data.items)
+        localStorage.setItem('cart', cartResponse.data.items)
     } catch (error) {
         console.log(error.message)
     }
@@ -123,6 +125,8 @@ function App() {
             <Login />
           }
         />
+
+        <Route path='/orders/:id' element={<OrderDetail />} />
 
         <Route path='/category' element=
           {<Category />
