@@ -41,9 +41,9 @@ const MyCart = (props) => {
                 return (products.find((product)=>{ return (product.id === item.itemId) }))
             })
 
-            await setCartInfo([cartInfo, ...infoList])
+            await setCartInfo(infoList)
 
-            setTimeout(()=>{setLoading(false)}, 2000)
+            setTimeout(()=>{setLoading(false)},2000)
             
         } catch (error) {
             console.log(error.message)
