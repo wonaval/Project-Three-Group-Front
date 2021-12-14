@@ -79,9 +79,9 @@ function App() {
     getProducts();
   }, [])
 
-  useEffect(()=>{
-    getCart();
-  }, [user.id])
+  // useEffect(()=>{
+  //   getCart();
+  // }, [user.id])
 
   return (
     <div className="App">
