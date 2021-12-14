@@ -5,7 +5,7 @@ import env from 'react-dotenv'
 import { Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-const CheckOut = () => {
+const CheckOut = (props) => {
 
   // useContext
   const { cartState } = useContext(UserContext)
@@ -26,23 +26,36 @@ const CheckOut = () => {
       const response = await axios.post(`${env.BACKEND_URL}/cart/update`, 
         { id: userId }
       )
-      console.log('Checked out!', response.data.carts)
 
+      const userResponse =  await axios.post(`${env.BACKEND_URL}/user/update`,
+        { creditCard: credit, address: address },
+        { headers : { Authorization : userId } }
+      )
+      console.log('Checked out!', response.data.carts)
       // setCart([...cart, response.data.carts])
       // console.log(cart)
-
       navigate('/orders')
-
     } catch (error) {
       
-
         console.log(error.message)
     }
+  }
+
+  const orderTotal = () => {
+    let sum = 0;
+    
+    cart.map((item, i) => {
+      if(item.checkedOut === false && cart.length) {
+        sum = sum + props.cartInfo[i].price
+      }
+    })
+    return sum;
   }
 
 
   return (
     <div>
+      <div>SUBTOTAL: ${orderTotal()}</div>
       <form onSubmit={(e)=>{submitForm(e)}}>
         <label htmlFor='address'>Address:</label>
         <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>

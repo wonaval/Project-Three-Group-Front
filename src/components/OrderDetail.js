@@ -28,10 +28,21 @@ const OrderDetail = () => {
     }
   }
 
-  useEffect(async ()=>{
-    await itemInfo();
+  useEffect(()=>{
+    itemInfo();
+    orderTotal();
   }, [])
 
+  const orderTotal = () => {
+    let sum = 0;
+    
+    cart.map((item, i) => {
+      if(item.checkoutDate === uniqueDate[id] && cartInfo.length) {
+        sum = sum + cartInfo[i].price
+      }
+    })
+    return sum;
+  }
 
   return (
     <div>
@@ -42,18 +53,20 @@ const OrderDetail = () => {
         return (
           <div key={i}>
             { item.checkoutDate === uniqueDate[id] && cartInfo.length ?
-              <div>{cartInfo[i].name}</div>
+              <div>
+                <span>{cartInfo[i].name}</span>
+                <span>{cartInfo[i].description}</span>
+                <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
+                <span>${cartInfo[i].price}</span>
+              </div>
               :
               null
             }
           </div>
         )
       })
-
-
-
       }
-    </div>
+      <div>Order Total: ${orderTotal()}</div></div>
 
   )
 }
