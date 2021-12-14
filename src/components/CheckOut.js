@@ -31,10 +31,10 @@ const CheckOut = (props) => {
       )
 
       console.log('Checked out!', response.data.carts)
-      setCart([...cart, response.data.carts])
+      await setCart([...cart, response.data.carts])
       // console.log(cart)
 
-      await navigate('/orders')
+      setTimeout(()=>{navigate('/orders')}, 5000) 
     } catch (error) {
       
         console.log(error.message)
