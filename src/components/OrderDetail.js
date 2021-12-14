@@ -44,18 +44,42 @@ const OrderDetail = () => {
     return sum;
   }
 
+  const address = () => {
+    const address = [...new Set(cart.map(item => {
+      if  (item.checkoutDate === uniqueDate[id] && cartInfo.length)
+      { return item.address }
+    }))]
+
+    return address;
+  }
+
+  const credit = () => {
+    const creditCard = [...new Set(cart.map(item => {
+      if  (item.checkoutDate === uniqueDate[id] && cartInfo.length)
+      { return item.creditCard }
+    }))]
+
+    return creditCard
+  }
+
+
+
   return (
     <div>
       ORDER DETAIL
       <div>{id}</div>
       <div>{uniqueDate[id]}</div>
+      <div>
+        <span>Address: {address()}</span>
+        <span>Credit Card: {credit()}</span>
+      </div>
       { cart.map((item, i)=>{
+        
         return (
           <div key={i}>
             { item.checkoutDate === uniqueDate[id] && cartInfo.length ?
               <div>
                 <span>{cartInfo[i].name}</span>
-                <span>{cartInfo[i].description}</span>
                 <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
                 <span>${cartInfo[i].price}</span>
               </div>
@@ -66,8 +90,8 @@ const OrderDetail = () => {
         )
       })
       }
-      <div>Order Total: ${orderTotal()}</div></div>
-
+      <div>Order Total: ${orderTotal()}</div>
+    </div>
   )
 }
 
