@@ -39,7 +39,7 @@ const AllProducts = (props) => {
     useEffect(()=>{
         loadProducts()
     }, [])
-
+    
     return (
         <div>
             <div>
