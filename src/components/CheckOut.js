@@ -62,8 +62,6 @@ const CheckOut = (props) => {
     }
   }
 
-  useEffect(()=>{getCart()},[])
-
   const orderTotal = () => {
     let sum = 0;
     
@@ -78,11 +76,11 @@ const CheckOut = (props) => {
 
   return (
     <div>
-      {/* {loading ?
+      {loading ?
       
         <LoadingScreen />
     
-        : */}
+        :
         <>
         
           <div>SUBTOTAL: ${orderTotal()}</div>
@@ -98,7 +96,7 @@ const CheckOut = (props) => {
         
     
     
-      {/* } */}
+      } 
       </div>
   )
 }
