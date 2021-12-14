@@ -31,12 +31,12 @@ const MyOrders = (props) => {
   }
 
   // Gets care from backend
-  const getCart = () => {
+  const getCart = async () => {
     try {
-      const response = axios.get(`${env.BACKEND_URL}/cart`, {
+      const response = await axios.get(`${env.BACKEND_URL}/cart`, {
       headers: { Authorization: localStorage.getItem('userId')}
-    }).then(setCart(response.data.items))
-
+    })
+    await setCart(response.data.items)
     } catch (error) {
       console.log(error)
     }
