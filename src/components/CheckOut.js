@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { UserContext } from "../context/UserContext"
 import axios from 'axios'
 import env from 'react-dotenv'
@@ -96,7 +96,7 @@ const CheckOut = (props) => {
         
     
     
-      }
+      } 
       </div>
   )
 }
