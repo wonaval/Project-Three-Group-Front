@@ -73,7 +73,7 @@ const AllProducts = (props) => {
         </ImageListItem>
         { filter.map((item, i) => (
             <ImageListItem key={item.id}>
-                <img 
+                <img className="productImage"
                 src={`${item.image}?
                 w=248&fit=crop&auto=format`}
                 srcSet={`${item.image}?
