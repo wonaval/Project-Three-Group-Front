@@ -8,42 +8,40 @@ import LoadingScreen from '../components/LoadingScreen'
 
 const MyCart = (props) => {
     // useContexts
-    const { cartState, loadingState } = useContext(UserContext)
+    const { loadingState } = useContext(UserContext)
     const [ loading, setLoading ] = loadingState
     
     // useStates
     const [ cart, setCart] = useState([])
-    const [ products, setProducts ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
-    
     const [ showCheckout, setShowCheckout] = useState(false)
 
-    // Converts cartState context into productInfo to be displayed
-    const itemInfo = async () => {
+    // Get cart from backend
+    const getCart = () => {
+        const userId = localStorage.getItem('userId')
         try {
-            const userId = localStorage.getItem('userId')
-
-            // setLoading(true)
-
-            const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
+            setLoading(true)
+            // GET cart from backend
+            axios.get(`${env.BACKEND_URL}/cart`,{
                 headers: { Authorization: userId }
-            })
-            await setCart(cartResponse.data.items)
-
-            // Filters list so only checked out items are left
-            const checkedList = cart.filter((item)=>{return(item.checkedOut !== true)})
-
-            const infoList = await checkedList.map((item)=>{
-                return (props.products.find((product)=>{ return (product.id === item.itemId) }))
-            })
-
-            await setCartInfo(infoList)
-
-            // setTimeout(()=>{setLoading(false)},2000)
-            
+            }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
         } catch (error) {
             console.log(error.message)
         }
+    }
+
+    // Converts cart context into productInfo to be displayed
+    const itemInfo = async () => {
+        // Filters list so only non-checked out items are left
+        const checkedList = await cart.filter((item)=>{return(item.checkedOut !== true)})
+        console.log('checked', checkedList)
+
+        const infoList = await checkedList.map((item)=>{
+            return (props.products.find((product)=>{ return (product.id === item.itemId) }))
+        })
+        await setCartInfo([...infoList])
+        console.log('CART', cartInfo)
+        setTimeout(()=>{setLoading(false)},2000)
     }
 
     // Removes item from backend
@@ -61,63 +59,50 @@ const MyCart = (props) => {
     }
 
     useEffect(()=>{
-        itemInfo();
+        getCart();
     }, [])
 
-    return (
+    useEffect(()=>{
+        itemInfo();
+    }, [cart])
 
+    return (
         <>
-        
             { loading ?
-            
                 <LoadingScreen />
             :
-            <div>
-                Cart Page
-                <div>{ cartInfo.length && cart.length ?
-                        <>
-                            {cartInfo.map((item, i) => {
-                                console.log(item)
-                                return (
-                                    <div className='cartItem' key={i}>
-                                        { cart[i].checkedOut ?
-                                            null
-                                        :
-                                            <span>
-                                                <img src={item.image} alt={item.name} />
-                                                {item.name}
-                                                ${item.price}
-                                                <button
-                                                    onClick={()=>{
-                                                        removeItem(cart[i].id)
-                                                    }}
-                                                > Remove </button>
-                                            </span>
-                                        }
-                                    </div>
-                                )
-                            })}
-                        </>
-                    :
-                        null
-                    }
-                </div>
-
-                { showCheckout ?
                 <div>
-                    <CheckOut getCart={props.getCart()} cartInfo={cartInfo} />
-                    <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
+                    <div>
+                        Cart Page
+                        {cartInfo.map((item, i) => {
+                            console.log('item', item, 'cart', cart[i])
+                            return (
+                                <div className='cartItem' key={i}>
+                                        <span>
+                                            <img src={item.image} alt={item.name} />
+                                            {item.name}
+                                            ${item.price}
+                                            <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
+                                        </span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div>
+                        { showCheckout ?
+                        <div>
+                            <CheckOut getCart={props.getCart()} cartInfo={cartInfo} />
+                            <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
+                        </div>
+                        :
+                        <div>
+                            <button onClick={()=>{setShowCheckout(true)}}>Checkout</button>
+                        </div>
+                        }
+                    </div>
                 </div>
-                :
-                <div>
-                    <button onClick={()=>{setShowCheckout(true)}}>Checkout</button>
-                </div>
-                }
-            </div>
-        
-        }
+            }
         </>
-        
     )
 }
 
