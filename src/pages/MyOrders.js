@@ -6,31 +6,14 @@ import env from "react-dotenv"
 
 const MyOrders = (props) => {
   // useContexts
-  const { cartState, productState, dateState } = useContext(UserContext)
-  const [ products, setProducts ] = productState
-  const [ cart, setCart ] = cartState
+  const { dateState } = useContext(UserContext)
   const [ uniqueDate, setUniqueDate ] = dateState
   
   // useStates
+  const [ cart, setCart ] = useState([])
   const [ cartInfo, setCartInfo ] = useState([])
-  // const [ uniqueDate, setUniqueDate ] = useState([])
 
-
-  // Converts cartState context into productInfo to be displayed
-  const itemInfo = async () => {
-    try {
-        const infoList = cart.map((item)=>{
-          return (products.find((product)=>{ return (product.id === item.itemId) }))
-        })
-        await setCartInfo([...infoList])
-        console.log('Cart',cart)
-        console.log('Product', products)
-    } catch (error) {
-        console.log(error.message)
-    }
-  }
-
-  // Gets care from backend
+  // Gets cart from backend
   const getCart = async () => {
     try {
       const response = await axios.get(`${env.BACKEND_URL}/cart`, {
@@ -42,6 +25,17 @@ const MyOrders = (props) => {
     }
   }
 
+  // Converts cartState context into productInfo to be displayed
+  const itemInfo = async () => {
+    try {
+        const infoList = cart.map((item)=>{
+          return (props.products.find((product)=>{ return (product.id === item.itemId) }))
+        })
+        await setCartInfo(infoList)
+    } catch (error) {
+        console.log(error.message)
+    }
+  }
 
   // Get unique dates in cart join table
   const getCartDate = async () => {
@@ -66,34 +60,16 @@ const MyOrders = (props) => {
 
   }
 
-  // const formatDate = (test) => {
-  //   const date = new 
-  //   const year = date.getFullYear();
-
-  //   const month = (1 + date.getMonth()).toString();
-
-  //   month = month.length > 1 ? month : '0' + month;
-  
-  //   const day = date.getDate().toString();
-  //   day = day.length > 1 ? day : '0' + day;
-    
-  //   return month + '/' + day + '/' + year;
-  // }
-
   useEffect(()=>{
-    // props.getCart();
     getCart();
-
     getCartDate();
     itemInfo();
   }, [])
-
 
   return (
     <div>
       <div>Previous Orders</div>
         <div>
-          {/* {console.log(cart)} */}
           { uniqueDate.map((date, i)=>{
             return(
               <div key={i}>
@@ -102,26 +78,7 @@ const MyOrders = (props) => {
             )
           })
           }
-
-
-        {/* { .map((item, i) => {
-          return (
-              <div className='cartItem' key={i}>
-                {console.log(getOrderDate(cart[i].checkoutDate))}
-                  { getOrderDate(cart[i].checkoutDate) === cart[i].checkoutDate ?
-                    <div>
-                      <img src={item.image} alt={item.name} />
-                      {cart[i].checkoutDate}
-                      {item.name}
-                      ${item.price}
-                    </div>
-                  :
-                    null
-                  }
-              </div>
-          )
-        })} */}
-        </div>
+      </div>
     </div>
   )
 }

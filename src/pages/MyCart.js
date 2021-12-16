@@ -8,45 +8,46 @@ import LoadingScreen from '../components/LoadingScreen'
 
 const MyCart = (props) => {
     // useContexts
-    const { cartState, productState, loadingState } = useContext(UserContext)
-    const [ products, setProducts ] = productState
-    const [ cart, setCart] = cartState
+    const { cartState, loadingState } = useContext(UserContext)
     const [ loading, setLoading ] = loadingState
     
     // useStates
+    const [ cart, setCart] = useState([])
+    const [ products, setProducts ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
     
     const [ showCheckout, setShowCheckout] = useState(false)
 
-
-
-        // useEffect(async ()=>{
-        //     await props.getProducts();
-        // }, [])
 
     // Converts cartState context into productInfo to be displayed
     const itemInfo = async () => {
         try {
             const userId = localStorage.getItem('userId')
 
-            setLoading(true)
+            // setLoading(true)
 
             const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
                 headers: { Authorization: userId }
             })
+            console.log(cartResponse)
+            setCart(cartResponse.data.items)
 
-            const userCart = await cartResponse.data.items
+            // Filters list so only checked out items are left
+            const checkedList = cart.filter((item)=>{return(item.checkedOut !== true)})
 
-            await setCart(userCart)
+            console.log('checkedList', checkedList)
 
-            const infoList = await userCart.map((item)=>{
-                return (products.find((product)=>{ return (product.id === item.itemId) }))
+            const infoList = checkedList.map((item)=>{
+                return (props.products.find((product)=>{ return (product.id === item.itemId) }))
             })
 
-            await setCartInfo(infoList)
+            console.log('info',infoList)
 
-            setTimeout(()=>{setLoading(false)},2000)
-            
+            setCartInfo(infoList)  
+
+            // setTimeout(()=>{setLoading(false)},2000)
+            console.log(cart)
+            console.log(cartInfo)
         } catch (error) {
             console.log(error.message)
         }
@@ -58,16 +59,17 @@ const MyCart = (props) => {
             console.log('ItemId', itemId)
             const userId = localStorage.getItem('userId');
             const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
-                headers: { Authorization: userId}
+                headers: { Authorization: userId }
             })
+            console.log(remove)
             await itemInfo();
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    useEffect(()=>{
-        itemInfo();
+    useEffect(async()=>{
+        await itemInfo();
     }, [])
 
     return (
@@ -82,9 +84,12 @@ const MyCart = (props) => {
                 Cart Page
                 <div>{ cartInfo.length && cart.length ?
                         <>
+                        {/* {console.log(cartInfo)} */}
                             {cartInfo.map((item, i) => {
+                                // console.log(item)
                                 return (
                                     <div className='cartItem' key={i}>
+                                        {/* {console.log(cart)} */}
                                         { cart[i].checkedOut ?
                                             null
                                         :
@@ -93,7 +98,6 @@ const MyCart = (props) => {
                                                 {item.name}
                                                 ${item.price}
                                                 <button
-                                                    // value={cart[i].itemId}
                                                     onClick={()=>{
                                                         removeItem(cart[i].id)
                                                     }}
@@ -106,8 +110,8 @@ const MyCart = (props) => {
                         </>
                     :
                         null
-                    }
-                </div>
+                    } 
+                 </div>
 
                 { showCheckout ?
                 <div>

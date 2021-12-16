@@ -13,17 +13,20 @@ import Header from './components/Header';
 import AllProducts from './components/AllProducts';
 import OrderDetail from './components/OrderDetail';
 
-import { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { UserContext } from './context/UserContext';
 
 import axios from 'axios'
 import LoadingScreen from './components/LoadingScreen';
 
 function App() {
-  const { userState, cartState, productState } = useContext(UserContext)
+  // useContext  
+  const { userState } = useContext(UserContext)
   const [ user, setUser ] = userState
-  const [ cart, setCart ] = cartState
-  const [ products, setProducts ]  = productState
+
+  // useState
+  const [ products, setProducts ]  = useState([])
+  const [ cart, setCart ] = useState([])
 
   // Fetches user info sets to userState context if userId is in localstorage
   const fetchUser = async () => {
@@ -42,7 +45,7 @@ function App() {
     catch (error) { console.log(error) }
   }
 
-  // GET cart and sets to cartState context
+  // GET cart and sets to cart useState
   const getCart = async () => {
     const userId = localStorage.getItem('userId')
     try {
@@ -51,21 +54,20 @@ function App() {
             headers: { Authorization: userId }
         })
 
-        // console.log(cartResponse)
         // Set cart hook
         await setCart(cartResponse.data.items)
-        localStorage.setItem('cart', cartResponse.data.items)
+        // localStorage.setItem('cart', cartResponse.data.items)
     } catch (error) {
         console.log(error.message)
     }
   }
 
-  // GET product list sets to productState context
+  // GET product list sets to product useState
   const getProducts = async () => {
     try {
       // GET products from backend
       const response = await axios.get(`${env.BACKEND_URL}/item`)
-      // Set it as cartState context hook
+      // Set it as product useState hook
       setProducts(response.data.items)
     } catch (error) {
       console.log(error.message)
@@ -75,72 +77,27 @@ function App() {
   // useEffect - On load functions
   useEffect(()=>{
     fetchUser();
-    getCart();
     getProducts();
+    getCart();
   }, [])
-
-  // useEffect(()=>{
-  //   getCart();
-  // }, [user.id])
 
   return (
     <div className="App">
-
-
-      <Header />
-
+      <Header cart={cart} setCart={setCart}/>
       <Routes>
-        <Route path='/' element={<Category />} />
-
-        <Route path='/loading' element={<LoadingScreen />} />
-
-        <Route path='/signup'  element=
-          { user.id ?
-              <Navigate to='/category'/>
-            :
-              <Signup />
-          }
-        />
-
-        <Route path='/login' element=
-          { user.id ?
-            <Navigate to='/category'/>
-          :
-            <Login />
-          }
-        />
-
-        <Route path='/cart' element=
-          { user.id ?
-            <MyCart getProducts={getProducts} getCart={getCart}/>
-          :
-            <Login />
-          }
-        />
-
-        <Route path='/orders' element=
-          { user.id ?
-            <MyOrders getCart={getCart}/>
-          :
-            <Login />
-          }
-        />
-
-        <Route path='/orders/:id' element={<OrderDetail />} />
-
-        <Route path='/category' element=
-          {<Category />
-          }
-        />
-
-        <Route path='/category/:name' element={<AllProducts getCart={getCart}/>} />
-
-        <Route path='/item/:id' element={<ItemDetails getCart={getCart}/>} />
-
+        <Route path='/' element={<Category products={products} />} />
+        <Route path='/loading' element={ <LoadingScreen /> } />
+        <Route path='/signup'  element={ user.id ? <Navigate to='/category'/> : <Signup /> } />
+        <Route path='/login' element={ user.id ? <Navigate to='/category'/> : <Login /> } />
+        <Route path='/cart' element={ user.id ? <MyCart products={products} getProducts={getProducts} getCart={getCart}/> : <Login /> } />
+        <Route path='/orders' element={ user.id ? <MyOrders products={products} getCart={getCart}/> : <Login /> } />
+        <Route path='/orders/:id' element={<OrderDetail products={products}/>} />
+        <Route path='/category' element={ <Category products={products} /> } />
+        <Route path='/category/:name' element={<AllProducts  products={products} getCart={getCart}/>} />
+        <Route path='/item/:id' element={<ItemDetails  products={products} getCart={getCart}/>} />
       </Routes>
-      
     </div>
-  );
+  )
 }
 
 export default App;
