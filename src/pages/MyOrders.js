@@ -62,8 +62,8 @@ const MyOrders = (props) => {
 
   useEffect(()=>{
     getCart();
-    getCartDate();
     itemInfo();
+    getCartDate();
   }, [])
 
   return (

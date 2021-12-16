@@ -71,7 +71,7 @@ const AllProducts = (props) => {
         </ImageListItem>
         { filter.map((item, i) => (
             <ImageListItem key={item.id}>
-                <img 
+                <img className="productImage"
                 src={`${item.image}?
                 w=248&fit=crop&auto=format`}
                 srcSet={`${item.image}?
@@ -82,7 +82,7 @@ const AllProducts = (props) => {
             <ImageListItemBar title={item.name} subtitle={item.description} actionIcon={
                 <>
                 { user.id ?
-                    <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} value={item.id} onClick={(e)=>{addToCartClick(e.target.value)}} >
+                    <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} value={item.id} onClick={(e)=>{addToCartClick(item.id)}} >
                         <img src={addToCart} /> 
                     </IconButton>
                 :
