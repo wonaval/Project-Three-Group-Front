@@ -13,21 +13,6 @@ import Logo4 from './images/logo4.png'
 
 const Category = () => {
 
-    // const [items, setItems] = useState({})
-
-    // const loadItems = async () => {
-    //     const response = await axios.get(`${env.BACKEND_URL}/item`)
-
-    //     const items = response.data.items
-
-    //     for(let item of items){
-    //         console.log(item.category)
-    //     }
-
-    //     // console.log(items)
-    // }
-
-    // useEffect(()=>{loadItems()}, [])
     const responsive = {
       superLargeDesktop: {
         // the naming can be any, depends on you.

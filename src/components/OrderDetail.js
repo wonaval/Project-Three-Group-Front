@@ -2,22 +2,22 @@ import { useState, useContext, useEffect } from 'react'
 import { UserContext } from "../context/UserContext"
 import { useParams } from 'react-router-dom'
 
-const OrderDetail = () => {
-  const { cartState, dateState, productState } = useContext(UserContext)
-  const [ products, setProducts ] = productState
-  const [ cart, setCart ] = cartState
+const OrderDetail = (props) => {
+  const { cartState, dateState } = useContext(UserContext)
   const [ uniqueDate, setUniqueDate ] = dateState
-
-  const [ cartInfo, setCartInfo ] = useState([])
 
   const { id } = useParams()
 
+  // useState
+  const [ cart, setCart ] = useState([])
+  const [ cartInfo, setCartInfo ] = useState([])
+
   const itemInfo = async () => {
     try {
-        console.log('PRODUCTS', products)
+        console.log('PRODUCTS', props.products)
 
         const infoList = cart.map((item)=>{
-          return (products.find((product)=>{ return (product.id === item.itemId) }))
+          return (props.products.find((product)=>{ return (product.id === item.itemId) }))
         })
 
         await setCartInfo([...infoList])

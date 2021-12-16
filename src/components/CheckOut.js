@@ -9,13 +9,14 @@ import LoadingScreen from './LoadingScreen'
 const CheckOut = (props) => {
 
   // useContext
-  const { cartState, loadingState } = useContext(UserContext)
-  const [ cart, setCart ] = cartState
+  const { loadingState } = useContext(UserContext)
+
   const [loading, setLoading] = loadingState
 
   // useState
   const [ address, setAddress ] = useState('')
   const [ credit, setCredit ] = useState('')
+  const [ cart, setCart ] = useState([])
 
   const navigate = useNavigate()
 

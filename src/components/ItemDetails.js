@@ -6,13 +6,17 @@ import env from 'react-dotenv'
 import { UserContext } from '../context/UserContext';
 
 const ItemDetails = (props) => {
+    // useContext
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
     
+    // useParams
     const { id } = useParams();
 
+    // useState
     const [ itemInfo, setItemInfo ] = useState([])
 
+    // Get single item details
     const getDetail = async () => {
         try {
             const detail = await axios.get(`${env.BACKEND_URL}/item/${id}`)
@@ -23,6 +27,7 @@ const ItemDetails = (props) => {
         }
     }
 
+    // Add item to cart function
     const addToCartClick = async (itemId) => {
         try {
             const response = await axios.post(`${env.BACKEND_URL}/cart`, {id : id}, {
@@ -34,10 +39,6 @@ const ItemDetails = (props) => {
         } catch (error) {
             console.log(error.message)
         }
-    }
-
-    const capitalize = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
     useEffect(()=>{

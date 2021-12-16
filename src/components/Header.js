@@ -1,5 +1,4 @@
-import React, { useContext} from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 
 import AppBar from '@mui/material/AppBar';
@@ -8,10 +7,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
-const Header = () => {
+const Header = (props) => {
     const { userState, cartState } = useContext(UserContext)
     const [ user, setUser ] = userState
-    const [ cart, setCart ] = cartState
+
+    // useState
+    const [ cart, setCart ] = useState([])
     
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -30,11 +31,11 @@ const Header = () => {
             <Button href="/category" color="inherit"> Category </Button>
             <Button href="/cart" color="inherit"> My Cart </Button>
             <Button href="/orders" color="inherit"> My Orders </Button>
-            <Button href="/" color= "inherit" onClick={() => { setUser({}); setCart([]); 
-            localStorage.removeItem('userId') }} >Logout </Button> 
+            <Button href="/" color= "inherit" onClick={() => { setUser({}); props.setCart([]); localStorage.removeItem('userId') }}>Logout</Button> 
             </>
             :
             <>
+            <Button href="/category" color="inherit"> Category </Button>
             <Button href="/signup" color="inherit"> Sign Up </Button>
             <Button href="/login" color="inherit"> Login </Button>
             </>
