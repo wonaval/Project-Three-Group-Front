@@ -19,6 +19,7 @@ const MyOrders = (props) => {
       const response = await axios.get(`${env.BACKEND_URL}/cart`, {
       headers: { Authorization: localStorage.getItem('userId')}
     })
+    console.log(response)
     await setCart(response.data.items)
     } catch (error) {
       console.log(error)
@@ -51,33 +52,41 @@ const MyOrders = (props) => {
 
 
     // referenced: https://stackoverflow.com/questions/15125920/how-to-get-distinct-values-from-an-array-of-objects-in-javascript?rq=1
-    const List1 = await [...new Set(cart.map(item => item.checkoutDate))]
+    const List1 = [...new Set(cart.map(item => item.checkoutDate))]
 
-    await console.log('DateList', List1)
-    await console.log('Cart', cart)
-    const sorted = await List1.sort()
+    console.log('DateList', List1)
+    console.log('Cart', cart)
+    const sorted =  List1.sort()
     await setUniqueDate(sorted)
 
   }
 
-  useEffect(()=>{
-    getCart();
-    itemInfo();
-    getCartDate();
+  useEffect(async ()=>{
+    await getCart();
+    await itemInfo();
+    await getCartDate();
   }, [])
 
   return (
     <div>
       <div>Previous Orders</div>
         <div>
-          { uniqueDate.map((date, i)=>{
-            return(
-              <div key={i}>
-                <Link to={`/orders/${i}`}> {date} </Link>
-              </div>
-            )
-          })
+          {uniqueDate.length &&
+          
+          <>
+            { uniqueDate.map((date, i)=>{
+              return(
+                <div key={i}>
+                  <Link to={`/orders/${i}`}> {date} </Link>
+                </div>
+              )
+            })
+            }
+
+          </>
+          
           }
+
       </div>
     </div>
   )
