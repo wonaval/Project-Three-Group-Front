@@ -18,11 +18,14 @@ const AllProducts = (props) => {
     const [ user, setUser ] = userState
     const {name} = useParams()
     const [products, setProducts] = useState([])
+
+
     const loadProducts = async () => {
         const response = await axios.get(`${env.BACKEND_URL}/item`)
         setProducts(response.data.items)
         
     }
+    
     const addToCartClick = async (itemId) => {
         const response = await axios.post(`${env.BACKEND_URL}/cart`, {id : itemId}, {
             headers: {
@@ -59,8 +62,7 @@ const AllProducts = (props) => {
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${item.title}`}
   >
-            <button> <img src={addToCart} onClick={()=>{addToCartClick(item.id)}} /> 
-            </button>
+            <button> <img src={addToCart} onClick={()=>{addToCartClick(item.id)}} /> </button>
             </IconButton>
   
 }
