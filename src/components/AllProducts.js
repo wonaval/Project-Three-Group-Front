@@ -14,35 +14,63 @@ import IconButton from '@mui/material/IconButton';
 import addToCart from './images/icon.png'
 
 const AllProducts = (props) => {
+    // useContext
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
+
+    const [ cart, setCart ] = useState([])
+    const [ filter, setFilter ] = useState([])
+
     const {name} = useParams()
-    const [products, setProducts] = useState([])
-    const loadProducts = async () => {
-        const response = await axios.get(`${env.BACKEND_URL}/item`)
-        setProducts(response.data.items)
-        
+
+    const getCart = async () => {
+        const userId = localStorage.getItem('userId')
+        try {
+            // GET cart from backend
+            const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
+                headers: { Authorization: userId }
+            })
+    
+            // Set cart hook
+            await setCart(cartResponse.data.items)
+    
+        } catch (error) {
+            console.log(error.message)
+        }
     }
+
+    // Add item to cart function
     const addToCartClick = async (itemId) => {
-        const response = await axios.post(`${env.BACKEND_URL}/cart`, {id : itemId}, {
+        console.log(itemId)
+        const response = await axios({
+            method: 'POST',
+            url: `${env.BACKEND_URL}/cart`,
+            data: {id : itemId},
             headers: {
                 Authorization: localStorage.getItem('userId')
             }
         })
-        props.getCart();
+        getCart()
     }
 
+    // Filter items by category name and return array to be displayed
+    const categoryFilter = () => {
+            const catFilter = props.products.filter((item)=>{return (item.category===name)})
+            setFilter(catFilter)
+    }
+
+    // userEffect - On
     useEffect(()=>{
-        loadProducts()
+        categoryFilter()
     }, [])
 
     return (
-        <ImageList sx={{ width: 1050, height: 450 }}>
+        <ImageList >
         <ImageListItem key="Subheader" cols={7}>
-        <ListSubheader component="div">{name}</ListSubheader>
+        <ListSubheader component="div"><h2>{name.toUpperCase()}</h2></ListSubheader>
         </ImageListItem>
-        {products.map((item, i) => (
-            <ImageListItem key="item.id">
+        { filter.map((item, i) => (
+            <ImageListItem key={item.id}>
                 <img 
                 src={`${item.image}?
                 w=248&fit=crop&auto=format`}
@@ -51,25 +79,21 @@ const AllProducts = (props) => {
                 alt={item.title}
                 loading="lazy"
                 />
-            <ImageListItemBar
-                title={item.name}
-                subtitle={item.description}
-                actionIcon={
-            <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${item.title}`}
-  >
-            <button> <img src={addToCart} onClick={()=>{addToCartClick(item.id)}} /> 
-            </button>
-            </IconButton>
-  
-}
-/>
-            
+            <ImageListItemBar title={item.name} subtitle={item.description} actionIcon={
+                <>
+                { user.id ?
+                    <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} value={item.id} onClick={(e)=>{addToCartClick(e.target.value)}} >
+                        <img src={addToCart} /> 
+                    </IconButton>
+                :
+                    null
+                }
+                </>
+            }/>
             </ImageListItem>
         ))}
         </ImageList>
-  )
+    )
 }
 
 export default AllProducts
