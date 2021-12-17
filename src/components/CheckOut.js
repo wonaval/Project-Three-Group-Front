@@ -1,10 +1,10 @@
 import { useState, useContext, useEffect } from 'react'
 import { UserContext } from "../context/UserContext"
-import axios from 'axios'
-import env from 'react-dotenv'
-import { Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import LoadingScreen from './LoadingScreen'
+
+import axios from 'axios'
+import env from 'react-dotenv'
 
 const CheckOut = (props) => {
 
@@ -14,7 +14,11 @@ const CheckOut = (props) => {
   const [loading, setLoading] = loadingState
 
   // useState
-  const [ address, setAddress ] = useState('')
+  const [ address1, setAddress1 ] = useState('')
+  const [ address2, setAddress2 ] = useState('')
+  const [ city, setCity ] = useState('')
+  const [ state, setState ] = useState([])
+  const [ zip, setZip ] = useState('')
   const [ credit, setCredit ] = useState('')
   const [ cart, setCart ] = useState([])
 
@@ -39,10 +43,12 @@ const CheckOut = (props) => {
     try {
       e.preventDefault()
       const userId = localStorage.getItem('userId')
+      const newAddress = ` ${address1} ${address2} ${city} ${state} ${zip}`
+
       const response = await axios.post(`${env.BACKEND_URL}/cart/update`, 
         { id: userId,
           credit: credit,
-          address: address
+          address: newAddress
         }
       )
 
@@ -74,20 +80,22 @@ const CheckOut = (props) => {
     
         :
         <>
-        
-          <div>SUBTOTAL: ${props.subtotal}</div>
+        <div>SUBTOTAL: ${props.subtotal}</div>
+        <div className="checkout">
+          <div>CHECKOUT</div>
           <form onSubmit={(e)=>{submitForm(e)}}>
             <label htmlFor='address'>Address:</label>
-            <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>
+            <input type='text' placeholder='Address line 1*' value={address1} onChange={(e)=>{setAddress1(e.target.value)}}/>
+            <input type='text' placeholder='Adress Line 2' value={address2} onChange={(e)=>{setAddress2(e.target.value)}}/>
+            <input type='text' placeholder='City*' value={city} onChange={(e)=>{setCity(e.target.value)}}/>
+            <input type='text' placeholder='State*' value={state} onChange={(e)=>{setState(e.target.value)}}/>
+            <input type='text' placeholder='Zip Code*' value={zip} onChange={(e)=>{setZip(e.target.value)}}/>
             <label htmlFor='creditCard'>Credit-card:</label>
-            <input type='text' placeholder='Enter credit card...' value={credit} onChange={(e)=>{setCredit(e.target.value)}}/>
-            <input type='submit'/>
+            <input type='text' placeholder='Credit Card Number' value={credit} onChange={(e)=>{setCredit(e.target.value)}}/>
+            <input type='submit' value='Checkout'/>
           </form>
-
-        </>
-        
-    
-    
+        </div>
+      </>
       } 
       </div>
   )

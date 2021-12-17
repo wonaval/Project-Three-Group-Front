@@ -65,7 +65,6 @@ const MyCart = (props) => {
             sum = sum + item.price
         })
         setSubtotal(sum)
-        console.log(subtotal)
     }
 
     useEffect(()=>{

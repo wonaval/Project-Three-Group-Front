@@ -40,9 +40,7 @@ const Login = (props) => {
 
         // Set userId into localStorage
         await localStorage.setItem('userId', response.data.user.id)
-
-        navigate.push('/category')
-
+        navigate('/category')
       } catch (error) {
         console.log('Error:', error.message)
       }
@@ -96,7 +94,6 @@ const Login = (props) => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              to='/category'
             >
               Login
             </Button>

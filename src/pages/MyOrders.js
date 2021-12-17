@@ -69,18 +69,19 @@ const MyOrders = (props) => {
   },[cartInfo])
 
   return (
-    <div>
-      <div>Previous Orders</div>
-        <div>
+    <div className="myOrders">
+      <div>PREVIOUS ORDERS</div>
+        <div className="orderList">
           {uniqueDate.length &&
           
           <>
             { uniqueDate.map((date, i)=>{
+              if (date !== null ) {
               return(
                 <div key={i}>
                   <Link to={`/orders/${i}`}> {date} </Link>
                 </div>
-              )
+              ) }
             })
             }
 

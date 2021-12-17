@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useState, useContext }  from 'react'
 import { UserContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import env from 'react-dotenv'
 
@@ -21,6 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const Signup = () => {
   const theme = createTheme();
+  const navigate = useNavigate();
   // WILL - This is the userContext syntax added
   const { userState } = useContext(UserContext)
   const [ user, setUser ] = userState
@@ -40,6 +42,7 @@ const Signup = () => {
 
           // Sets userId into localStorage
           await localStorage.setItem('userId', response.data.user.id)
+          await navigate('/category')
         } catch (error) {
           console.log('Error:', error.mesage)
         }

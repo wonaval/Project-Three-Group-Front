@@ -28,7 +28,7 @@ const Header = (props) => {
             <Button href="/category" color="inherit"> Category </Button>
             <Button href="/cart" color="inherit"> My Cart </Button>
             <Button href="/orders" color="inherit"> My Orders </Button>
-            <Button href="/" color= "inherit" onClick={() => { setUser({}); props.setCart([]); localStorage.removeItem('userId') }}>Logout</Button> 
+            <Button href="/login" color= "inherit" onClick={() => { setUser({}); props.setCart([]); localStorage.removeItem('userId') }}>Logout</Button> 
             </>
             :
             <>
