@@ -29,10 +29,6 @@ const CheckOut = (props) => {
             headers: { Authorization: userId }
         }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
 
-
-        // Set cart hook
-        await setCart([...cartResponse.data.items])
-
         setLoading(false)
     } catch (error) {
         console.log(error.message)

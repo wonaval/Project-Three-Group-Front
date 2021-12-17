@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useContext }  from 'react'
 import { UserContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import env from 'react-dotenv'
 
@@ -21,6 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const Login = (props) => {
   // WILL - This is the useContext syntax added
   // User info will be sved to userState so we know which page should show what
+    let navigate = useNavigate();
     const theme = createTheme();
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
@@ -38,6 +40,9 @@ const Login = (props) => {
 
         // Set userId into localStorage
         await localStorage.setItem('userId', response.data.user.id)
+
+        navigate.push('/category')
+
       } catch (error) {
         console.log('Error:', error.message)
       }
@@ -59,7 +64,7 @@ const Login = (props) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
           <Box component="form" onSubmit={submitForm} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -91,8 +96,9 @@ const Login = (props) => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              to='/category'
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
               <Grid item xs>
