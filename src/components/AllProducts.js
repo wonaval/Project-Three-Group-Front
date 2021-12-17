@@ -23,17 +23,14 @@ const AllProducts = (props) => {
 
     const {name} = useParams()
 
-    const getCart = async () => {
+    // Get cart from backend
+    const getCart = () => {
         const userId = localStorage.getItem('userId')
         try {
             // GET cart from backend
-            const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
+            axios.get(`${env.BACKEND_URL}/cart`,{
                 headers: { Authorization: userId }
-            })
-    
-            // Set cart hook
-            await setCart(cartResponse.data.items)
-    
+            }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
         } catch (error) {
             console.log(error.message)
         }

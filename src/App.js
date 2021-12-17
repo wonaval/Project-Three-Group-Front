@@ -46,20 +46,18 @@ function App() {
   }
 
   // GET cart and sets to cart useState
-  const getCart = async () => {
-    const userId = localStorage.getItem('userId')
-    try {
-        // GET cart from backend
-        const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
-            headers: { Authorization: userId }
-        })
+    // Get cart from backend
+    const getCart = () => {
+      const userId = localStorage.getItem('userId')
+      try {
+          // GET cart from backend
+          axios.get(`${env.BACKEND_URL}/cart`,{
+              headers: { Authorization: userId }
+          }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
 
-        // Set cart hook
-        await setCart(cartResponse.data.items)
-        // localStorage.setItem('cart', cartResponse.data.items)
-    } catch (error) {
-        console.log(error.message)
-    }
+      } catch (error) {
+          console.log(error.message)
+      }
   }
 
   // GET product list sets to product useState

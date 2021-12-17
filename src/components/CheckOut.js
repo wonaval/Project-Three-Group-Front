@@ -30,9 +30,8 @@ const CheckOut = (props) => {
             headers: { Authorization: userId }
         })
 
-        // console.log(cartResponse)
         // Set cart hook
-        await setCart(cartResponse.data.items)
+        await setCart([...cartResponse.data.items])
 
         setLoading(false)
     } catch (error) {
@@ -50,10 +49,6 @@ const CheckOut = (props) => {
           address: address
         }
       )
-
-      console.log('Checked out!', response.data.carts)
-      // setCart([response.data.carts, ...cart])
-      // console.log(cart)
 
       await getCart()
 
@@ -84,7 +79,7 @@ const CheckOut = (props) => {
         :
         <>
         
-          <div>SUBTOTAL: ${orderTotal()}</div>
+          <div>SUBTOTAL: ${props.subtotal}</div>
           <form onSubmit={(e)=>{submitForm(e)}}>
             <label htmlFor='address'>Address:</label>
             <input type='text' placeholder='Enter address...' value={address} onChange={(e)=>{setAddress(e.target.value)}}/>

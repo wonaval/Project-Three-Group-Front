@@ -8,9 +8,8 @@ import env from 'react-dotenv'
 import './OrderDetail.css'
 
 const OrderDetail = (props) => {
-  const { userState, dateState } = useContext(UserContext)
-  const [ user, setUser ] = userState
-  const [ uniqueDate, setUniqueDate ] = dateState
+  const { dateState } = useContext(UserContext)
+  const [ uniqueDate ] = dateState
 
   const { id } = useParams()
 
