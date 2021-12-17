@@ -13,12 +13,14 @@ const MyCart = (props) => {
     
     // useStates
     const [ cart, setCart] = useState([])
+    const [ checkList, setCheckList ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
     const [ products, setProducts ] = useState([])
     const [ subtotal, setSubtotal ] = useState(0)
 
     // Get cart from backend
     const getCart = () => {
+        setLoading(true)
         const userId = localStorage.getItem('userId')
         try {
             // GET cart from backend
@@ -39,13 +41,13 @@ const MyCart = (props) => {
         } catch (error) {
           console.log(error.message)
         }
-      }
+    }
 
     // Converts cart context into productInfo to be displayed
     const itemInfo = async () => {
         // Filters list so only non-checked out items are left
         const checkedList = await cart.filter((item)=>{return(item.checkedOut !== true)})
-        console.log('checked', checkedList)
+        setCheckList([...checkedList])
 
         console.log('products', products)
 
@@ -54,7 +56,7 @@ const MyCart = (props) => {
         })
 
         setCartInfo(infoList)
-        setTimeout(()=>{setLoading(false)}, 5000)
+        setTimeout(()=>{setLoading(false)}, 2000)
     }
 
     // Removes item from backend
@@ -135,19 +137,9 @@ const MyCart = (props) => {
                                     { cartInfo.map((item, i) => {
                                         return (
                                            
-
                                             returnCart(item, i)
-
-
-                                            // <div key={i} style={{backgroundImage : `url(${item.image})`}} className='cart-div' >
-                                            //     <div className='cart-text'>
-                                            //         <span>{cartInfo[i].name} <br /></span>
-                                            //         <span>${cartInfo[i].price}</span>
-                                            //         <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
-                                            //     </div>
-
-                                            // </div>
-                                    )})}
+                                        )
+                                    })}
                                 </div>
                             <div><CheckOut subtotal={subtotal}/></div>
                             
