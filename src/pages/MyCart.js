@@ -29,7 +29,7 @@ const MyCart = (props) => {
                 headers: { Authorization: userId }
             }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
 
-            setLoading(false)
+            setTimeout(()=>{setLoading(false)}, 2000)
         } catch (error) {
             console.log(error.message)
         }
@@ -70,6 +70,7 @@ const MyCart = (props) => {
             const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
                 headers: { Authorization: userId }
             })
+            console.log(remove)
             getCart();
         } catch (error) {
             console.log(error.message)
@@ -115,7 +116,7 @@ const MyCart = (props) => {
                     <div className='cart-text'>
                         <span>{cartInfo[i].name} <br /></span>
                         <span>${cartInfo[i].price}</span>
-                        <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
+                        <button onClick={()=>{ removeItem(cart[i].id); console.log(cart[i].id) }} > Remove </button>
                     </div>
 
                 </div>
