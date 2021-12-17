@@ -17,11 +17,12 @@ const MyCart = (props) => {
     const [ cartInfo, setCartInfo ] = useState([])
     const [ products, setProducts ] = useState([])
     const [ subtotal, setSubtotal ] = useState(0)
+    const userId = localStorage.getItem('userId')
 
     // Get cart from backend
     const getCart = () => {
         
-        const userId = localStorage.getItem('userId')
+        
         try {
             setLoading(true)
             // GET cart from backend
@@ -70,7 +71,6 @@ const MyCart = (props) => {
     const removeItem = async (itemId) => {
         try {
             console.log('ItemId', itemId)
-            const userId = localStorage.getItem('userId');
             const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
                 headers: { Authorization: userId }
             })
@@ -140,7 +140,7 @@ const MyCart = (props) => {
                     {cartInfo.length &&
                         <>
                         
-                            <div>Cart Page</div>
+                            <h1>Cart Page</h1>
                                 <div className='cart-container'>
                                     { cartInfo.map((item, i) => {
                                         return (
@@ -148,7 +148,7 @@ const MyCart = (props) => {
                                         )
                                     })}
                                 </div>
-                            <div><CheckOut subtotal={subtotal}/></div>
+                            <h2><CheckOut subtotal={subtotal}/></h2>
                             
                         </>
                     }

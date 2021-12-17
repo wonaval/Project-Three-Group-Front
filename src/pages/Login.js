@@ -33,8 +33,10 @@ const Login = (props) => {
       try {
         e.preventDefault()
         // Pulls user from backend
+        console.log(password)
         const response = await axios.post(`${env.BACKEND_URL}/user/login`, { email, password })
   
+        console.log(response)
         // Sets user through useContext
         await setUser(response.data.user)
 
