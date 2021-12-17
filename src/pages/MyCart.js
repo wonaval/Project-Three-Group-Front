@@ -15,6 +15,7 @@ const MyCart = (props) => {
     const [ cart, setCart] = useState([])
     const [ checkList, setCheckList ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
+    const [ products, setProducts ] = useState([])
     const [ subtotal, setSubtotal ] = useState(0)
 
     // Get cart from backend
@@ -31,19 +32,31 @@ const MyCart = (props) => {
         }
     }
 
+    const getProducts = async () => {
+        try {
+          // GET products from backend
+          const response = await axios.get(`${env.BACKEND_URL}/item`)
+          // Set it as product useState hook
+          setProducts(response.data.items)
+        } catch (error) {
+          console.log(error.message)
+        }
+    }
+
     // Converts cart context into productInfo to be displayed
     const itemInfo = async () => {
         // Filters list so only non-checked out items are left
         const checkedList = await cart.filter((item)=>{return(item.checkedOut !== true)})
         setCheckList([...checkedList])
 
-        const infoList = await checkList.map((item)=>{
-            return (props.products.find((product)=>{ return (product.id === item.itemId) }))
+        console.log('products', products)
+
+        const infoList = await checkedList.map((item)=>{
+            return (products.find((product)=>{ return (product.id === item.itemId) }))
         })
 
-        await setCartInfo(infoList)
+        setCartInfo(infoList)
         setTimeout(()=>{setLoading(false)}, 2000)
-
     }
 
     // Removes item from backend
@@ -61,12 +74,17 @@ const MyCart = (props) => {
     }
 
     const orderTotal = () => {
-        let sum = 0;
-        cartInfo.map((item, i) => {
-            sum = sum + item.price
-        })
-        setSubtotal(sum)
-        console.log(subtotal)
+        try {
+            let sum = 0;
+            cartInfo.map((item, i) => {
+                sum = sum + item.price
+            })
+            setSubtotal(sum)
+            console.log(subtotal)
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     useEffect(()=>{
@@ -74,15 +92,35 @@ const MyCart = (props) => {
     }, [])
 
     useEffect(()=>{
-        itemInfo();
+        getProducts();
     }, [cart])
+
+
+    useEffect(()=>{
+        itemInfo();
+    }, [cart, products])
 
     useEffect(()=>{
         orderTotal();
     }, [cartInfo])
 
-    if (!cartInfo) {
-        return (<></>)
+    const returnCart = (item, i) => {
+        try {
+
+            return(
+                <div key={i} style={{backgroundImage : `url(${item.image})`}} className='cart-div' >
+                    <div className='cart-text'>
+                        <span>{cartInfo[i].name} <br /></span>
+                        <span>${cartInfo[i].price}</span>
+                        <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
+                    </div>
+
+                </div>
+            )
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -91,29 +129,23 @@ const MyCart = (props) => {
                 <LoadingScreen />
             :
                 <div>
-                    <div>
-                        <div>Cart Page</div>
-                            <div>
-
-
-                                { cartInfo.map((item, i) => {
-                                    console.log(item)
-                                    return (
-                                        <div className='cartItem' key={i}>
-                                                <span>
-                                                    <img src={item.image} alt={item.name} />
-                                                    {item.name}
-                                                    ${item.price}
-                                                    <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
-                                                </span>
-                                        </div>
-                                )})}
-
-                            </div>
-                    </div>
-                    <div><CheckOut subtotal={subtotal}/></div>
-
-                    </div>
+                    {cartInfo.length &&
+                        <>
+                        
+                            <div>Cart Page</div>
+                                <div className='cart-container'>
+                                    { cartInfo.map((item, i) => {
+                                        return (
+                                           
+                                            returnCart(item, i)
+                                        )
+                                    })}
+                                </div>
+                            <div><CheckOut subtotal={subtotal}/></div>
+                            
+                        </>
+                    }
+                </div>
             }
         </>
     )
