@@ -38,7 +38,7 @@ const MyCart = (props) => {
         const infoList = await checkedList.map((item)=>{
             return (props.products.find((product)=>{ return (product.id === item.itemId) }))
         })
-        await setCartInfo([...infoList])
+        await setCartInfo(infoList)
         setTimeout(()=>{setLoading(false)}, 5000)
     }
 
