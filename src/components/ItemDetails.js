@@ -3,6 +3,7 @@ import React from 'react'
 import { useState, useEffect, useContext } from  'react'
 import { useParams, Link } from 'react-router-dom'
 import env from 'react-dotenv'
+import './ItemDetails.css'
 
 const ItemDetails = (props) => {
     
@@ -42,26 +43,28 @@ const ItemDetails = (props) => {
     }, [])
 
     return (
-        <div>
-            <div>
+        <div className='main-div'>
+            <div >
                 <Link to={`/category/${itemInfo.category}`}>
                     Back to {itemInfo.category}
                 </Link>
             </div>
-            <div>
-                {itemInfo.name}
+            <div className='item-div'>
+            <div className='item-header'>
+                <h2>{itemInfo.name}</h2>
             </div>
             <div>
                 <img src={itemInfo.image}/>
             </div>
             <div>
-                {itemInfo.description}
+                {`Description: ${itemInfo.description}`}
             </div>
             <div>
                 Price: ${itemInfo.price}
             </div>
             <div>
                 <button onClick={addToCartClick}>Add to Cart</button>
+            </div>
             </div>
         </div>
     )
