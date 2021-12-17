@@ -55,7 +55,7 @@ const CheckOut = (props) => {
       )
 
       await getCart()
-
+      await console.log('Cart after Checkout', cart)
       await navigate('/orders')
     } catch (error) {
         console.log(error.message)
