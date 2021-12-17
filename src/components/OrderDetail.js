@@ -89,10 +89,10 @@ const OrderDetail = (props) => {
     <div className='order-screen'>
       <div className='order-details'>
         <h1>ORDER DETAILS</h1>
-        <span>{uniqueDate[id]} <br /> </span>
-        <span>Address: {address()} <br /> </span>
-        <span>Credit Card: {credit()} <br /> </span>
-        <span>Order Total: ${subtotal}</span>
+        <div>{uniqueDate[id]} </div>
+        <div>Address: <b>{address()}</b> </div>
+        <div>Credit Card: <b>{credit()}</b> </div>
+        <div>Order Total: <b>${subtotal}</b></div>
       </div>
 
 
@@ -100,13 +100,15 @@ const OrderDetail = (props) => {
         { cartInfo.map((item, i)=>{
           
           return (
-            <div key={i}>
-                <div className='Item-div'>
-                  <span>{cartInfo[i].name}</span>
-                  <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
-                  <span>${cartInfo[i].price}</span>
+                <div key={i} style={{backgroundImage : `url(${cartInfo[i].image})`}} className='Item-div'>
+                    {/* <span>{cartInfo[i].name}</span>
+                    <span>${cartInfo[i].price}</span> */}
+                  {/* <img src={cartInfo[i].image} alt={cartInfo[i].name }/> */}
+                  <div className='item-text'>
+                    <span>{cartInfo[i].name} <br /></span>
+                    <span>${cartInfo[i].price}</span>
+                  </div>
                 </div>
-            </div>
           )
         })
         }
