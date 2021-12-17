@@ -24,14 +24,13 @@ const CheckOut = (props) => {
   const getCart = () => {
     const userId = localStorage.getItem('userId')
     try {
+
+        setLoading(true)
         // GET cart from backend
         axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
         }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
 
-
-        // Set cart hook
-        await setCart([...cartResponse.data.items])
 
         setLoading(false)
     } catch (error) {

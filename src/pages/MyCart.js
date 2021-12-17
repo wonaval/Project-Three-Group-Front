@@ -20,13 +20,16 @@ const MyCart = (props) => {
 
     // Get cart from backend
     const getCart = () => {
-        setLoading(true)
+        
         const userId = localStorage.getItem('userId')
         try {
+            setLoading(true)
             // GET cart from backend
             axios.get(`${env.BACKEND_URL}/cart`,{
                 headers: { Authorization: userId }
             }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
+
+            setLoading(false)
         } catch (error) {
             console.log(error.message)
         }
