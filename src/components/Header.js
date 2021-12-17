@@ -8,11 +8,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
 const Header = (props) => {
-    const { userState, cartState } = useContext(UserContext)
+    const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
-
-    // useState
-    const [ cart, setCart ] = useState([])
     
     return (
         <Box sx={{ flexGrow: 1 }}>

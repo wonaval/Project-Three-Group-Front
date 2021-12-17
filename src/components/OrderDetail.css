@@ -1,0 +1,123 @@
+.order-screen {
+  /* background-color: gray; */
+}
+
+.Item-div {
+  width: 300px;
+  height: 300px;
+  background-size: cover;
+  background-color: rgba(145, 255, 0, 0.37);
+  overflow: hidden;
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-items: center; */
+  /* align-content: center; */
+  margin: 10px auto;
+  border-radius: 10%;
+  box-shadow: slategrey 3px 3px 5px 2px;
+}
+
+.item-text {
+  height: 150px;
+  width: 300px;
+  margin-top: auto;
+  background-color: rgba(0, 0, 0, 0.493);
+  display: none;
+}
+
+.Item-div:hover .item-text {
+  display: block;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.Item-div span {
+  color: rgb(255, 255, 255);
+}
+
+.item-text span:nth-child(1) {
+  text-align: justify;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
+  margin: 0 0 0 20px;
+}
+
+.item-text span:nth-child(2) {
+  margin-bottom: auto;
+  text-align: justify;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 20px 0 0;
+}
+
+.item-container {
+  background-color: rgba(143, 136, 136, 0.801);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* justify-content: space-between; */
+  /* flex-direction: column; */
+
+  max-height: 70vh;
+  max-width: 70vw;
+  margin: 5vh auto;
+  overflow-y: scroll;
+}
+
+.item-container::-webkit-scrollbar {
+  border-radius: 10px;
+  width: 12px;
+}
+
+.item-container::-webkit-scrollbar:hover {
+  outline: 2px solid rgb(0, 26, 255);
+}
+
+.item-container::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: rgb(38, 141, 84);
+  -webkit-box-shadow: 0 0 6px rgb(0, 0, 0);
+}
+
+.item-container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(119, 117, 106);
+  -webkit-box-shadow: 0 0 6px rgb(0, 0, 0);
+  transition: background-color 1s ease;
+}
+
+.order-details {
+  background-color: rgba(0, 0, 0, 0.76);
+  box-shadow: orange 4px 4px 7px 3px;
+  border-radius: 15%;
+  max-width: 70vw;
+  margin: 0 auto;
+}
+
+.order-details * {
+  text-shadow: black 2px 2px 2px;
+}
+
+.order-details h1 {
+  color: blanchedalmond;
+}
+
+.order-details div {
+  color: rgb(13, 209, 216);
+  font-size: 25px;
+}
+
+.order-details b {
+  margin-left: 30px;
+}
+
+.order-details div:nth-child(1) {
+  color: rgb(78, 47, 255);
+}

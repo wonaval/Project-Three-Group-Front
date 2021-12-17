@@ -3,12 +3,8 @@ import React from 'react'
 import { useState, useEffect, useContext } from  'react'
 import { useParams, Link } from 'react-router-dom'
 import env from 'react-dotenv'
-import { UserContext } from '../context/UserContext';
 
 const ItemDetails = (props) => {
-    // useContext
-    const { userState } = useContext(UserContext)
-    const [ user, setUser ] = userState
     
     // useParams
     const { id } = useParams();

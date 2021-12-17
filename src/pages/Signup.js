@@ -63,7 +63,7 @@ const Signup = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" onSubmit={submitForm} noValidate sx={{ mt: 3 }} >
+          <Box component="form" onSubmit={submitForm} noValidate sx={{ mt: 3 }} to="/category">
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField

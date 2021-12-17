@@ -15,7 +15,6 @@ const MyCart = (props) => {
     const [ cart, setCart] = useState([])
     const [ checkList, setCheckList ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
-    const [ showCheckout, setShowCheckout] = useState(false)
     const [ subtotal, setSubtotal ] = useState(0)
 
     // Get cart from backend
@@ -23,7 +22,6 @@ const MyCart = (props) => {
         setLoading(true)
         const userId = localStorage.getItem('userId')
         try {
-            // setLoading(true)
             // GET cart from backend
             axios.get(`${env.BACKEND_URL}/cart`,{
                 headers: { Authorization: userId }
@@ -44,6 +42,7 @@ const MyCart = (props) => {
         })
         await setCartInfo([...infoList])
         setTimeout(()=>{setLoading(false)}, 2000)
+
     }
 
     // Removes item from backend
@@ -62,11 +61,11 @@ const MyCart = (props) => {
 
     const orderTotal = () => {
         let sum = 0;
-        
         cartInfo.map((item, i) => {
             sum = sum + item.price
         })
         setSubtotal(sum)
+        console.log(subtotal)
     }
 
     useEffect(()=>{
@@ -93,23 +92,11 @@ const MyCart = (props) => {
                 <div>
                     <div>
                         <div>Cart Page</div>
-                        { cart ?
                             <div>
-<<<<<<< Updated upstream
-                            { cartInfo.map((item, i) => {
-                                console.log(item)
-                                return (
-                                    <div className='cartItem' key={i}>
-                                            <span>
-                                                <img src={item.image} alt={item.name} />
-                                                {item.name}
-                                                ${item.price}
-                                                <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
-                                            </span>
-                                    </div>
-                            )})}
-=======
+
+
                                 { cartInfo.map((item, i) => {
+                                    console.log(item)
                                     return (
                                         <div className='cartItem' key={i}>
                                                 <span>
@@ -120,26 +107,12 @@ const MyCart = (props) => {
                                                 </span>
                                         </div>
                                 )})}
->>>>>>> Stashed changes
+
                             </div>
-                        :
-                            null
-                        }
                     </div>
-                    <div>Subtotal: {subtotal}</div>
-                    <div>
-                        { showCheckout ?
-                        <div>
-                            <CheckOut />
-                            <button onClick={()=>{setShowCheckout(false)}}>Cancel Checkout</button>
-                        </div>
-                        :
-                        <div>
-                            <button onClick={()=>{setShowCheckout(true)}}>Checkout</button>
-                        </div>
-                        }
+                    <div><CheckOut subtotal={subtotal}/></div>
+
                     </div>
-                </div>
             }
         </>
     )

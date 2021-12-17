@@ -72,14 +72,22 @@ const MyOrders = (props) => {
     <div>
       <div>Previous Orders</div>
         <div>
-          { uniqueDate.map((date, i)=>{
-            return(
-              <div key={i}>
-                <Link to={`/orders/${i}`}> {date} </Link>
-              </div>
-            )
-          })
+          {uniqueDate.length &&
+          
+          <>
+            { uniqueDate.map((date, i)=>{
+              return(
+                <div key={i}>
+                  <Link to={`/orders/${i}`}> {date} </Link>
+                </div>
+              )
+            })
+            }
+
+          </>
+          
           }
+
       </div>
     </div>
   )

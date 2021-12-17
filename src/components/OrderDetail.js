@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import env from 'react-dotenv'
 
+import './OrderDetail.css'
+
 const OrderDetail = (props) => {
-  const { userState, dateState } = useContext(UserContext)
-  const [ user, setUser ] = userState
-  const [ uniqueDate, setUniqueDate ] = dateState
+  const { dateState } = useContext(UserContext)
+  const [ uniqueDate ] = dateState
 
   const { id } = useParams()
 
@@ -85,28 +86,34 @@ const OrderDetail = (props) => {
   }, [itemInfo])
 
   return (
-    <div>
-      ORDER DETAIL
-      <div>{id}</div>
-      <div>{uniqueDate[id]}</div>
-      <div>
-        <span>Address: {address()}</span>
-        <span>Credit Card: {credit()}</span>
+    <div className='order-screen'>
+      <div className='order-details'>
+        <h1>ORDER DETAILS</h1>
+        <div>{uniqueDate[id]} </div>
+        <div>Address: <b>{address()}</b> </div>
+        <div>Credit Card: <b>{credit()}</b> </div>
+        <div>Order Total: <b>${subtotal}</b></div>
       </div>
-      { cartInfo.map((item, i)=>{
-        
-        return (
-          <div key={i}>
-              <div>
-                <span>{cartInfo[i].name}</span>
-                <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
-                <span>${cartInfo[i].price}</span>
-              </div>
-          </div>
-        )
-      })
-      }
-      <div>Order Total: ${subtotal}</div>
+
+
+      <div className='item-container' >
+        { cartInfo.map((item, i)=>{
+          
+          return (
+                <div key={i} style={{backgroundImage : `url(${cartInfo[i].image})`}} className='Item-div'>
+                    {/* <span>{cartInfo[i].name}</span>
+                    <span>${cartInfo[i].price}</span> */}
+                  {/* <img src={cartInfo[i].image} alt={cartInfo[i].name }/> */}
+                  <div className='item-text'>
+                    <span>{cartInfo[i].name} <br /></span>
+                    <span>${cartInfo[i].price}</span>
+                  </div>
+                </div>
+          )
+        })
+        }
+      </div>
+      
     </div>
   )
 }
