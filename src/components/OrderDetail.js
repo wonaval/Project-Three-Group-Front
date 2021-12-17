@@ -101,9 +101,6 @@ const OrderDetail = (props) => {
           
           return (
                 <div key={i} style={{backgroundImage : `url(${cartInfo[i].image})`}} className='Item-div'>
-                    {/* <span>{cartInfo[i].name}</span>
-                    <span>${cartInfo[i].price}</span> */}
-                  {/* <img src={cartInfo[i].image} alt={cartInfo[i].name }/> */}
                   <div className='item-text'>
                     <span>{cartInfo[i].name} <br /></span>
                     <span>${cartInfo[i].price}</span>
