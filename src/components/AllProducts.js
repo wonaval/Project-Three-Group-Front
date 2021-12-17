@@ -42,7 +42,7 @@ const AllProducts = (props) => {
     // Add item to cart function
     const addToCartClick = async (itemId) => {
         console.log(itemId)
-        const response = await axios({
+        const response = await axios.request({
             method: 'POST',
             url: `${env.BACKEND_URL}/cart`,
             data: {id : itemId},

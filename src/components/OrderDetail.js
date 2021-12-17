@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import env from 'react-dotenv'
 
+import './OrderDetail.css'
+
 const OrderDetail = (props) => {
   const { userState, dateState } = useContext(UserContext)
   const [ user, setUser ] = userState
@@ -85,28 +87,32 @@ const OrderDetail = (props) => {
   }, [itemInfo])
 
   return (
-    <div>
-      ORDER DETAIL
-      <div>{id}</div>
-      <div>{uniqueDate[id]}</div>
-      <div>
-        <span>Address: {address()}</span>
-        <span>Credit Card: {credit()}</span>
+    <div className='order-screen'>
+      <div className='order-details'>
+        <h1>ORDER DETAILS</h1>
+        <span>{uniqueDate[id]} <br /> </span>
+        <span>Address: {address()} <br /> </span>
+        <span>Credit Card: {credit()} <br /> </span>
+        <span>Order Total: ${subtotal}</span>
       </div>
-      { cartInfo.map((item, i)=>{
-        
-        return (
-          <div key={i}>
-              <div>
-                <span>{cartInfo[i].name}</span>
-                <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
-                <span>${cartInfo[i].price}</span>
-              </div>
-          </div>
-        )
-      })
-      }
-      <div>Order Total: ${subtotal}</div>
+
+
+      <div className='item-container' >
+        { cartInfo.map((item, i)=>{
+          
+          return (
+            <div key={i}>
+                <div className='Item-div'>
+                  <span>{cartInfo[i].name}</span>
+                  <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
+                  <span>${cartInfo[i].price}</span>
+                </div>
+            </div>
+          )
+        })
+        }
+      </div>
+      
     </div>
   )
 }

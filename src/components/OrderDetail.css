@@ -1,0 +1,59 @@
+.order-screen {
+  /* background-color: gray; */
+}
+
+.Item-div {
+  max-width: 300px;
+  background-color: rgba(145, 255, 0, 0.37);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+  border-radius: 10%;
+}
+
+.Item-div span {
+  /* color: blueviolet; */
+}
+
+.Item-div img {
+  /* min-width: 50%; */
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.order-details {
+  background-color: blue;
+}
+
+.item-container {
+  background-color: rgba(143, 136, 136, 0.801);
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  max-width: 50vw;
+  margin: 5vh auto;
+  overflow-y: scroll;
+}
+
+.item-container::-webkit-scrollbar {
+  border-radius: 10px;
+  width: 12px;
+}
+
+.item-container::-webkit-scrollbar:hover {
+  outline: 2px solid rgb(0, 26, 255);
+}
+
+.item-container::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: rgb(38, 141, 84);
+  -webkit-box-shadow: 0 0 6px rgb(0, 0, 0);
+}
+
+.item-container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(119, 117, 106);
+  -webkit-box-shadow: 0 0 6px rgb(0, 0, 0);
+  transition: background-color 1s ease;
+}

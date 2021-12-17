@@ -56,7 +56,7 @@ function App() {
 
         // Set cart hook
         await setCart(cartResponse.data.items)
-        localStorage.setItem('cart', cartResponse.data.items)
+        // localStorage.setItem('cart', cartResponse.data.items)
     } catch (error) {
         console.log(error.message)
     }
