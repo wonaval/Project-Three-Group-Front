@@ -55,7 +55,11 @@ const MyCart = (props) => {
         console.log('products', products)
 
         const infoList = await checkedList.map((item)=>{
-            return (products.find((product)=>{ return (product.id === item.itemId) }))
+            console.log('checkItem', item)
+            return (products.find((product)=>{ 
+                console.log('Prod ID', product.id)
+                console.log('Item ID', item.itemId)
+                return (product.id === item.itemId) }))
         })
 
         setCartInfo(infoList)
@@ -116,7 +120,7 @@ const MyCart = (props) => {
                     <div className='cart-text'>
                         <span>{cartInfo[i].name} <br /></span>
                         <span>${cartInfo[i].price}</span>
-                        <button onClick={()=>{ removeItem(cart[i].id); console.log(cart[i].id) }} > Remove </button>
+                        <button onClick={()=>{ removeItem(checkList[i].id); console.log(checkList[i].id) }} > Remove </button>
                     </div>
 
                 </div>
@@ -140,7 +144,6 @@ const MyCart = (props) => {
                                 <div className='cart-container'>
                                     { cartInfo.map((item, i) => {
                                         return (
-                                           
                                             returnCart(item, i)
                                         )
                                     })}
