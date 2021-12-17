@@ -21,24 +21,18 @@ const CheckOut = (props) => {
   const navigate = useNavigate()
 
 
-  const getCart = async () => {
+  const getCart = () => {
     const userId = localStorage.getItem('userId')
     try {
-        setLoading(true)
         // GET cart from backend
-        const cartResponse = await axios.get(`${env.BACKEND_URL}/cart`,{
+        axios.get(`${env.BACKEND_URL}/cart`,{
             headers: { Authorization: userId }
-        })
+        }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
 
-        // console.log(cartResponse)
-        // Set cart hook
-        await setCart(cartResponse.data.items)
-
-        setLoading(false)
     } catch (error) {
         console.log(error.message)
     }
-  }
+}
 
   const submitForm = async (e) => {
     try {

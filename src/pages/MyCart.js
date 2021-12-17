@@ -13,12 +13,14 @@ const MyCart = (props) => {
     
     // useStates
     const [ cart, setCart] = useState([])
+    const [ checkList, setCheckList ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
     const [ showCheckout, setShowCheckout] = useState(false)
     const [ subtotal, setSubtotal ] = useState(0)
 
     // Get cart from backend
     const getCart = () => {
+        setLoading(true)
         const userId = localStorage.getItem('userId')
         try {
             // setLoading(true)
@@ -35,14 +37,13 @@ const MyCart = (props) => {
     const itemInfo = async () => {
         // Filters list so only non-checked out items are left
         const checkedList = await cart.filter((item)=>{return(item.checkedOut !== true)})
-        console.log('checked', checkedList)
+        setCheckList([...checkedList])
 
-        const infoList = await checkedList.map((item)=>{
-            return (props.products.find((product)=>{ console.log(product.id, item.itemId); return (product.id === item.itemId) }))
+        const infoList = await checkList.map((item)=>{
+            return (props.products.find((product)=>{ return (product.id === item.itemId) }))
         })
         await setCartInfo([...infoList])
-        console.log('CART', cartInfo)
-        // setTimeout(()=>{setLoading(false)},1000)
+        setTimeout(()=>{setLoading(false)}, 2000)
     }
 
     // Removes item from backend
@@ -80,6 +81,10 @@ const MyCart = (props) => {
         orderTotal();
     }, [cartInfo])
 
+    if (!cartInfo) {
+        return (<></>)
+    }
+
     return (
         <>
             { loading ?
@@ -90,6 +95,7 @@ const MyCart = (props) => {
                         <div>Cart Page</div>
                         { cart ?
                             <div>
+<<<<<<< Updated upstream
                             { cartInfo.map((item, i) => {
                                 console.log(item)
                                 return (
@@ -102,6 +108,19 @@ const MyCart = (props) => {
                                             </span>
                                     </div>
                             )})}
+=======
+                                { cartInfo.map((item, i) => {
+                                    return (
+                                        <div className='cartItem' key={i}>
+                                                <span>
+                                                    <img src={item.image} alt={item.name} />
+                                                    {item.name}
+                                                    ${item.price}
+                                                    <button onClick={()=>{ removeItem(cart[i].id) }} > Remove </button>
+                                                </span>
+                                        </div>
+                                )})}
+>>>>>>> Stashed changes
                             </div>
                         :
                             null
