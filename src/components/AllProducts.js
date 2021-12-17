@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import env from 'react-dotenv'
@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import addToCart from './images/icon.png'
 
 const AllProducts = (props) => {
+    const navigate = useNavigate();
     // useContext
     const { userState } = useContext(UserContext)
     const [ user, setUser ] = userState
@@ -75,6 +76,7 @@ const AllProducts = (props) => {
                 w=248&fit=crop&auto=format&dpr=6 6x`}
                 alt={item.title}
                 loading="lazy"
+                onClick={()=>{navigate(`/item/${item.id}`)}}
                 />
             <ImageListItemBar title={item.name} subtitle={item.description} actionIcon={
                 <>
