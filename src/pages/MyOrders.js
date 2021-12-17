@@ -31,13 +31,10 @@ const MyOrders = (props) => {
   const itemInfo = async () => {
       // Filters list so only checked out items are left
       const checkedList = await cart.filter((item)=>{return(item.checkedOut === true)})
-      console.log('checked', checkedList)
-
       const infoList = await checkedList.map((item)=>{
           return (props.products.find((product)=>{ return (product.id === item.itemId) }))
       })
       await setCartInfo([...infoList])
-      console.log('CART', cartInfo)
   }
 
   // Get unique dates in cart join table
@@ -47,16 +44,12 @@ const MyOrders = (props) => {
 
     // Alternative function
     // referenced: https://stackoverflow.com/questions/15125920/how-to-get-distinct-values-from-an-array-of-objects-in-javascript?rq=1
-    console.log(cart)
     const List = await cart.map((item) => {
-      console.log('Item', item)
       return item.checkoutDate
     }).filter((value, index, self)=>(
       self.indexOf(value) === index
     ))
 
-    await console.log('DateList', List)
-    await console.log('Cart', cart)
     const sorted = await List.sort()
     await setUniqueDate(sorted)
 
@@ -72,7 +65,7 @@ const MyOrders = (props) => {
   },[cart])
 
   useEffect(()=>{
-    getCartDate();
+    getCartDate()
   },[cartInfo])
 
   return (
