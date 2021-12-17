@@ -87,10 +87,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Category products={products} />} />
         <Route path='/loading' element={ <LoadingScreen /> } />
-        <Route path='/signup'  element={ user.id ? <Navigate to='/category'/> : <Signup /> } />
-        <Route path='/login' element={ user.id ? <Navigate to='/category'/> : <Login /> } />
-        <Route path='/cart' element={ user.id ? <MyCart products={products} getProducts={getProducts} getCart={getCart}/> : <Login /> } />
-        <Route path='/orders' element={ user.id ? <MyOrders products={products} getCart={getCart}/> : <Login /> } />
+        <Route path='/signup'  element={ localStorage.getItem('userId') ? <Navigate to='/category'/> : <Signup /> } />
+        <Route path='/login' element={ localStorage.getItem('userId') ? <Navigate to='/category'/> : <Login /> } />
+        <Route path='/cart' element={ localStorage.getItem('userId') ? <MyCart products={products} getProducts={getProducts} getCart={getCart}/> : <Login /> } />
+        <Route path='/orders' element={ localStorage.getItem('userId') ? <MyOrders products={products} getCart={getCart}/> : <Login /> } />
         <Route path='/orders/:id' element={<OrderDetail products={products}/>} />
         <Route path='/category' element={ <Category products={products} /> } />
         <Route path='/category/:name' element={<AllProducts  products={products} getCart={getCart}/>} />
