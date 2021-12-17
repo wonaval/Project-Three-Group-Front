@@ -53,12 +53,7 @@ const MyCart = (props) => {
             const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
                 headers: { Authorization: userId }
             })
-<<<<<<< HEAD
-            console.log(remove)
-            await itemInfo();
-=======
             getCart();
->>>>>>> 71034473b19e7ebeb75e5ce26bc4b2a388b36d22
         } catch (error) {
             console.log(error.message)
         }
