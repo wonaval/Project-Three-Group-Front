@@ -62,6 +62,7 @@ const MyOrders = (props) => {
 
   }
 
+  // Cascading useEffect in order to get useState to time correctly
   useEffect(()=>{
     getCart();
   }, [])
