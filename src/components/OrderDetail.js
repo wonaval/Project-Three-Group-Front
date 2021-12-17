@@ -2,8 +2,12 @@ import { useState, useContext, useEffect } from 'react'
 import { UserContext } from "../context/UserContext"
 import { useParams } from 'react-router-dom'
 
+import axios from 'axios'
+import env from 'react-dotenv'
+
 const OrderDetail = (props) => {
-  const { cartState, dateState } = useContext(UserContext)
+  const { userState, dateState } = useContext(UserContext)
+  const [ user, setUser ] = userState
   const [ uniqueDate, setUniqueDate ] = dateState
 
   const { id } = useParams()
@@ -11,37 +15,43 @@ const OrderDetail = (props) => {
   // useState
   const [ cart, setCart ] = useState([])
   const [ cartInfo, setCartInfo ] = useState([])
+  const [ subtotal, setSubtotal] = useState([])
 
-  const itemInfo = async () => {
-    try {
-        console.log('PRODUCTS', props.products)
+    // Get cart from backend
+    const getCart = () => {
+      const userId = localStorage.getItem('userId')
+      try {
+          // GET cart from backend
+          axios.get(`${env.BACKEND_URL}/cart`,{
+              headers: { Authorization: userId }
+          }).then((cartResponse)=>{setCart([...cartResponse.data.items])})
 
-        const infoList = cart.map((item)=>{
-          return (props.products.find((product)=>{ return (product.id === item.itemId) }))
-        })
-
-        await setCartInfo([...infoList])
-        console.log('CARTINFO', cartInfo)
-        console.log('CART', cart)
-    } catch (error) {
-        console.log(error.message)
-    }
+      } catch (error) {
+          console.log(error.message)
+      }
   }
 
-  useEffect(()=>{
-    itemInfo();
-    orderTotal();
-  }, [])
+  // Converts cart context into productInfo to be displayed
+  const itemInfo = async () => {
+      // Filters list so only checked out items are left
+      console.log(uniqueDate[id])
+      const checkedList = await cart.filter((item)=>{return(item.checkoutDate === uniqueDate[id])})
+      console.log('checked', checkedList)
+
+      const infoList = await checkedList.map((item)=>{
+          return (props.products.find((product)=>{ return (product.id === item.itemId) }))
+      })
+      await setCartInfo([...infoList])
+      console.log('CART', cartInfo)
+  }
 
   const orderTotal = () => {
     let sum = 0;
     
-    cart.map((item, i) => {
-      if(item.checkoutDate === uniqueDate[id] && cartInfo.length) {
-        sum = sum + cartInfo[i].price
-      }
-    })
-    return sum;
+    cartInfo.map((item, i) => {
+        sum = sum + item.price
+      })
+    setSubtotal(sum)
   }
 
   const address = () => {
@@ -62,7 +72,17 @@ const OrderDetail = (props) => {
     return creditCard
   }
 
+  useEffect(()=>{
+    getCart()
+  }, [])
 
+  useEffect(()=>{
+    itemInfo()
+  }, [cart])
+
+  useEffect(()=> {
+    orderTotal()
+  }, [itemInfo])
 
   return (
     <div>
@@ -73,24 +93,20 @@ const OrderDetail = (props) => {
         <span>Address: {address()}</span>
         <span>Credit Card: {credit()}</span>
       </div>
-      { cart.map((item, i)=>{
+      { cartInfo.map((item, i)=>{
         
         return (
           <div key={i}>
-            { item.checkoutDate === uniqueDate[id] && cartInfo.length ?
               <div>
                 <span>{cartInfo[i].name}</span>
                 <img src={cartInfo[i].image} alt={cartInfo[i].name }/>
                 <span>${cartInfo[i].price}</span>
               </div>
-              :
-              null
-            }
           </div>
         )
       })
       }
-      <div>Order Total: ${orderTotal()}</div>
+      <div>Order Total: ${subtotal}</div>
     </div>
   )
 }

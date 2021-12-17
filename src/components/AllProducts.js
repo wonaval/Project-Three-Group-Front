@@ -50,9 +50,13 @@ const AllProducts = (props) => {
                 Authorization: localStorage.getItem('userId')
             }
         })
+<<<<<<< HEAD
 
         console.log(response)
         getCart()
+=======
+        getCart();
+>>>>>>> 71034473b19e7ebeb75e5ce26bc4b2a388b36d22
     }
 
     // Filter items by category name and return array to be displayed
@@ -83,7 +87,7 @@ const AllProducts = (props) => {
                 />
             <ImageListItemBar title={item.name} subtitle={item.description} actionIcon={
                 <>
-                { user.id ?
+                { localStorage.getItem('userId') ?
                     <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} value={item.id} onClick={(e)=>{addToCartClick(item.id)}} >
                         <img src={addToCart} /> 
                     </IconButton>
