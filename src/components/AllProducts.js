@@ -12,12 +12,14 @@ import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 
 import addToCart from './images/icon.png'
+import LoadingScreen from './LoadingScreen'
 
 const AllProducts = (props) => {
     const navigate = useNavigate();
     // useContext
-    const { userState } = useContext(UserContext)
+    const { userState,loadingState } = useContext(UserContext)
     const [ user, setUser ] = userState
+    const [ loading, setLoading ] = loadingState
 
     const [ cart, setCart ] = useState([])
     const [ filter, setFilter ] = useState([])
@@ -53,8 +55,13 @@ const AllProducts = (props) => {
 
     // Filter items by category name and return array to be displayed
     const categoryFilter = () => {
-            const catFilter = props.products.filter((item)=>{return (item.category===name)})
-            setFilter(catFilter)
+        
+        setLoading(true)
+
+        const catFilter = props.products.filter((item)=>{return (item.category===name)})
+        setFilter(catFilter)
+
+        setTimeout(()=>{setLoading(false)}, 2000)
     }
 
     // userEffect - On
@@ -63,35 +70,53 @@ const AllProducts = (props) => {
     }, [])
 
     return (
-        <ImageList >
-        <ImageListItem key="Subheader" cols={7}>
-        <ListSubheader component="div"><h2>{name.toUpperCase()}</h2></ListSubheader>
-        </ImageListItem>
-        { filter.map((item, i) => (
-            <ImageListItem key={item.id}>
-                <img className="productImage"
-                src={`${item.image}?
-                w=248&fit=crop&auto=format`}
-                srcSet={`${item.image}?
-                w=248&fit=crop&auto=format&dpr=6 6x`}
-                alt={item.title}
-                loading="lazy"
-                onClick={()=>{navigate(`/item/${item.id}`)}}
-                />
-            <ImageListItemBar title={item.name} subtitle={item.description} actionIcon={
-                <>
-                { localStorage.getItem('userId') ?
-                    <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} value={item.id} onClick={(e)=>{addToCartClick(item.id)}} >
-                        <img src={addToCart} /> 
-                    </IconButton>
-                :
-                    null
-                }
-                </>
-            }/>
+        <>
+        
+        {loading ? 
+        
+        <LoadingScreen /> 
+        
+        :
+        
+
+            <ImageList >
+            <ImageListItem key="Subheader" cols={7}>
+            <ListSubheader component="div"><h2>{name.toUpperCase()}</h2></ListSubheader>
             </ImageListItem>
-        ))}
-        </ImageList>
+            { filter.map((item, i) => (
+                <ImageListItem key={item.id}>
+                    <img className="productImage"
+                    src={`${item.image}?
+                    w=248&fit=crop&auto=format`}
+                    srcSet={`${item.image}?
+                    w=248&fit=crop&auto=format&dpr=6 6x`}
+                    alt={item.title}
+                    loading="lazy"
+                    onClick={()=>{navigate(`/item/${item.id}`)}}
+                    />
+                <ImageListItemBar title={item.name} subtitle={item.description} actionIcon={
+                    <>
+                    { localStorage.getItem('userId') ?
+                        <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} value={item.id} onClick={(e)=>{addToCartClick(item.id)}} >
+                            <img src={addToCart} /> 
+                        </IconButton>
+                    :
+                        null
+                    }
+                    </>
+                }/>
+                </ImageListItem>
+            ))}
+            </ImageList>
+        
+        
+        
+        }
+
+
+        </>
+        
+        
     )
 }
 
