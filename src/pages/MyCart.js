@@ -13,11 +13,13 @@ const MyCart = (props) => {
     
     // useStates
     const [ cart, setCart] = useState([])
+    const [ checkList, setCheckList ] = useState([])
     const [ cartInfo, setCartInfo ] = useState([])
     const [ subtotal, setSubtotal ] = useState(0)
 
     // Get cart from backend
     const getCart = () => {
+        setLoading(true)
         const userId = localStorage.getItem('userId')
         try {
             // GET cart from backend
@@ -33,13 +35,15 @@ const MyCart = (props) => {
     const itemInfo = async () => {
         // Filters list so only non-checked out items are left
         const checkedList = await cart.filter((item)=>{return(item.checkedOut !== true)})
-        console.log('checked', checkedList)
+        setCheckList([...checkedList])
 
-        const infoList = await checkedList.map((item)=>{
+        const infoList = await checkList.map((item)=>{
             return (props.products.find((product)=>{ return (product.id === item.itemId) }))
         })
+
         await setCartInfo(infoList)
-        setTimeout(()=>{setLoading(false)}, 5000)
+        setTimeout(()=>{setLoading(false)}, 2000)
+
     }
 
     // Removes item from backend
@@ -77,6 +81,10 @@ const MyCart = (props) => {
         orderTotal();
     }, [cartInfo])
 
+    if (!cartInfo) {
+        return (<></>)
+    }
+
     return (
         <>
             { loading ?
@@ -86,6 +94,8 @@ const MyCart = (props) => {
                     <div>
                         <div>Cart Page</div>
                             <div>
+
+
                                 { cartInfo.map((item, i) => {
                                     console.log(item)
                                     return (
@@ -98,6 +108,7 @@ const MyCart = (props) => {
                                                 </span>
                                         </div>
                                 )})}
+
                             </div>
                     </div>
                     <div><CheckOut subtotal={subtotal}/></div>
