@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { useState, useContext }  from 'react'
-import { UserContext } from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import env from 'react-dotenv'
+import { useState, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import env from 'react-dotenv';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -24,32 +24,36 @@ const Signup = () => {
   const theme = createTheme();
   const navigate = useNavigate();
   // WILL - This is the userContext syntax added
-  const { userState } = useContext(UserContext)
-  const [ user, setUser ] = userState
+  const { userState } = useContext(UserContext);
+  const [user, setUser] = userState;
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    
-    const submitForm = async (e) => {
-        try {
-          e.preventDefault()
-          // Pulls user from backend
-          const response = await axios.post(`${env.BACKEND_URL}/user`, { name, email, password })
-          console.log(response)
-          // Sets user through useContext
-          await setUser(response.data.user)
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-          // Sets userId into localStorage
-          await localStorage.setItem('userId', response.data.user.id)
-          await navigate('/category')
-        } catch (error) {
-          console.log('Error:', error.mesage)
-        }
+  const submitForm = async (e) => {
+    try {
+      e.preventDefault();
+      // Pulls user from backend
+      const response = await axios.post(`${env.BACKEND_URL}/user`, {
+        name,
+        email,
+        password,
+      });
+      console.log(response);
+      // Sets user through useContext
+      await setUser(response.data.user);
+
+      // Sets userId into localStorage
+      await localStorage.setItem('userId', response.data.user.id);
+      await navigate('/category');
+    } catch (error) {
+      console.log('Error:', error.mesage);
     }
+  };
 
-    return (
-      <ThemeProvider theme={theme}>
+  return (
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -66,7 +70,13 @@ const Signup = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" onSubmit={submitForm} noValidate sx={{ mt: 3 }} to="/category">
+          <Box
+            component="form"
+            onSubmit={submitForm}
+            noValidate
+            sx={{ mt: 3 }}
+            to="/category"
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -77,7 +87,9 @@ const Signup = () => {
                   id="firstName"
                   label="First Name"
                   value={name}
-                  onChange={ (e) => {setName(e.target.value)} }
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                   autoFocus
                 />
               </Grid>
@@ -100,7 +112,9 @@ const Signup = () => {
                   name="email"
                   autoComplete="email"
                   value={email}
-                  onChange={ (e) => {setEmail(e.target.value)} }
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -113,11 +127,12 @@ const Signup = () => {
                   id="password"
                   autoComplete="new-password"
                   value={password}
-                  onChange={ (e) => {setPassword(e.target.value)} }
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
               </Grid>
-              <Grid item xs={12}>
-              </Grid>
+              <Grid item xs={12}></Grid>
             </Grid>
             <Button
               type="submit"
@@ -138,8 +153,7 @@ const Signup = () => {
         </Box>
       </Container>
     </ThemeProvider>
-    )
-}
+  );
+};
 
-
-export default Signup
+export default Signup;

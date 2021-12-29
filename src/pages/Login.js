@@ -1,9 +1,9 @@
-import React from 'react'
-import { useState, useContext }  from 'react'
-import { UserContext } from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import env from 'react-dotenv'
+import React from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import env from 'react-dotenv';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -22,34 +22,37 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const Login = (props) => {
   // WILL - This is the useContext syntax added
   // User info will be sved to userState so we know which page should show what
-    let navigate = useNavigate();
-    const theme = createTheme();
-    const { userState } = useContext(UserContext)
-    const [ user, setUser ] = userState
-    const [ email, setEmail] = useState('')
-    const [ password, setPassword] = useState('')
-    
-    const submitForm = async (e) => {
-      try {
-        e.preventDefault()
-        // Pulls user from backend
-        console.log(password)
-        const response = await axios.post(`${env.BACKEND_URL}/user/login`, { email, password })
-  
-        console.log(response)
-        // Sets user through useContext
-        await setUser(response.data.user)
+  let navigate = useNavigate();
+  const theme = createTheme();
+  const { userState } = useContext(UserContext);
+  const [user, setUser] = userState;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-        // Set userId into localStorage
-        await localStorage.setItem('userId', response.data.user.id)
-        navigate('/category')
-      } catch (error) {
-        console.log('Error:', error.message)
-      }
+  const submitForm = async (e) => {
+    try {
+      e.preventDefault();
+      // Pulls user from backend
+      console.log(password);
+      const response = await axios.post(`${env.BACKEND_URL}/user/login`, {
+        email,
+        password,
+      });
+
+      console.log(response);
+      // Sets user through useContext
+      await setUser(response.data.user);
+
+      // Set userId into localStorage
+      await localStorage.setItem('userId', response.data.user.id);
+      navigate('/category');
+    } catch (error) {
+      console.log('Error:', error.message);
     }
+  };
 
-    return (
-      <ThemeProvider theme={theme}>
+  return (
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -76,7 +79,9 @@ const Login = (props) => {
               name="email"
               autoComplete="email"
               value={email}
-              onChange={(e)=>{setEmail(e.target.value)}}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               autoFocus
             />
             <TextField
@@ -89,7 +94,9 @@ const Login = (props) => {
               id="setPassword"
               autoComplete="current-password"
               value={password}
-              onChange={(e)=>{setPassword(e.target.value)}}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
             <Button
               type="submit"
@@ -100,8 +107,7 @@ const Login = (props) => {
               Login
             </Button>
             <Grid container>
-              <Grid item xs>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
@@ -113,6 +119,6 @@ const Login = (props) => {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default Login
+export default Login;

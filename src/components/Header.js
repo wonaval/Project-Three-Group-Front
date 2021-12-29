@@ -1,5 +1,5 @@
-import React, { useState, useContext} from 'react'
-import { UserContext } from '../context/UserContext'
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,40 +8,66 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
 const Header = (props) => {
-    const { userState } = useContext(UserContext)
-    const [ user, setUser ] = userState
-    
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-            </IconButton>
-            { user.id ? 
-            <>
-            <Button href="/category" color="inherit"> Category </Button>
-            <Button href="/cart" color="inherit"> My Cart </Button>
-            <Button href="/orders" color="inherit"> My Orders </Button>
-            <Button href="/login" color= "inherit" onClick={() => { setUser({}); props.setCart([]); localStorage.removeItem('userId') }}>Logout</Button> 
-            </>
-            :
-            <>
-            <Button href="/category" color="inherit"> Category </Button>
-            <Button href="/signup" color="inherit"> Sign Up </Button>
-            <Button href="/login" color="inherit"> Login </Button>
-            </>
-            }
-            
-          </Toolbar>
-        </AppBar>
-      </Box>
-    )
-}
+  const { userState } = useContext(UserContext);
+  const [user, setUser] = userState;
 
-export default Header
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          ></IconButton>
+          {user.id ? (
+            <>
+              <Button href="/category" color="inherit">
+                {' '}
+                Category{' '}
+              </Button>
+              <Button href="/cart" color="inherit">
+                {' '}
+                My Cart{' '}
+              </Button>
+              <Button href="/orders" color="inherit">
+                {' '}
+                My Orders{' '}
+              </Button>
+              <Button
+                href="/login"
+                color="inherit"
+                onClick={() => {
+                  setUser({});
+                  props.setCart([]);
+                  localStorage.removeItem('userId');
+                }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button href="/category" color="inherit">
+                {' '}
+                Category{' '}
+              </Button>
+              <Button href="/signup" color="inherit">
+                {' '}
+                Sign Up{' '}
+              </Button>
+              <Button href="/login" color="inherit">
+                {' '}
+                Login{' '}
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+};
+
+export default Header;

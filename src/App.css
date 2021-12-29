@@ -1,4 +1,3 @@
-
 .App {
   text-align: center;
 }
@@ -12,8 +11,6 @@
 .carouselImage {
   width: 500px;
 }
-
-
 
 .orderList {
   width: 500px;
@@ -62,4 +59,3 @@
   flex-direction: column;
   width: 300px;
 }
-
