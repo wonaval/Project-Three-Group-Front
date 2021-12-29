@@ -1,0 +1,10 @@
+.logo {
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-text {
+  margin-left: 8px;
+}

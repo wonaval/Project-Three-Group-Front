@@ -28,7 +28,7 @@ const OrderDetail = (props) => {
 
       // GET cart from backend
       axios
-        .get(`${env.BACKEND_URL}/cart`, {
+        .get(`${env.REACT_APP_BACKEND_URL}/cart`, {
           headers: { Authorization: userId },
         })
         .then((cartResponse) => {
@@ -46,11 +46,9 @@ const OrderDetail = (props) => {
   // Converts cart context into productInfo to be displayed
   const itemInfo = async () => {
     // Filters list so only checked out items are left
-    console.log(uniqueDate[id]);
     const checkedList = await cart.filter((item) => {
       return item.checkoutDate === uniqueDate[id];
     });
-    console.log('checked', checkedList);
 
     const infoList = await checkedList.map((item) => {
       return props.products.find((product) => {
@@ -58,7 +56,6 @@ const OrderDetail = (props) => {
       });
     });
     await setCartInfo([...infoList]);
-    console.log('CART', cartInfo);
   };
 
   const orderTotal = () => {

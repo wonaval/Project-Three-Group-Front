@@ -29,7 +29,7 @@ const CheckOut = (props) => {
       setLoading(true);
       // GET cart from backend
       axios
-        .get(`${env.BACKEND_URL}/cart`, {
+        .get(`${env.REACT_APP_BACKEND_URL}/cart`, {
           headers: { Authorization: userId },
         })
         .then((cartResponse) => {
@@ -48,14 +48,16 @@ const CheckOut = (props) => {
       const userId = localStorage.getItem('userId');
       const newAddress = ` ${address1} ${address2} ${city} ${state} ${zip}`;
 
-      const response = await axios.post(`${env.BACKEND_URL}/cart/update`, {
-        id: userId,
-        credit: credit,
-        address: newAddress,
-      });
+      const response = await axios.post(
+        `${env.REACT_APP_BACKEND_URL}/cart/update`,
+        {
+          id: userId,
+          credit: credit,
+          address: newAddress,
+        }
+      );
 
       await getCart();
-      await console.log('Cart after Checkout', cart);
       await navigate('/orders');
     } catch (error) {
       console.log(error.message);

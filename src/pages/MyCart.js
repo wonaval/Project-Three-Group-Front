@@ -5,6 +5,7 @@ import env from 'react-dotenv';
 import CheckOut from '../components/CheckOut';
 import './MyCart.css';
 import LoadingScreen from '../components/LoadingScreen';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 const MyCart = (props) => {
   // useContexts
@@ -25,7 +26,7 @@ const MyCart = (props) => {
       setLoading(true);
       // GET cart from backend
       axios
-        .get(`${env.BACKEND_URL}/cart`, {
+        .get(`${env.REACT_APP_BACKEND_URL}/cart`, {
           headers: { Authorization: userId },
         })
         .then((cartResponse) => {
@@ -43,7 +44,7 @@ const MyCart = (props) => {
   const getProducts = async () => {
     try {
       // GET products from backend
-      const response = await axios.get(`${env.BACKEND_URL}/item`);
+      const response = await axios.get(`${env.REACT_APP_BACKEND_URL}/item`);
       // Set it as product useState hook
       setProducts(response.data.items);
     } catch (error) {
@@ -58,12 +59,8 @@ const MyCart = (props) => {
       return item.checkedOut !== true;
     });
     setCheckList([...checkedList]);
-    console.log('products', products);
     const infoList = await checkedList.map((item) => {
-      console.log('checkItem', item);
       return products.find((product) => {
-        console.log('Prod ID', product.id);
-        console.log('Item ID', item.itemId);
         return product.id === item.itemId;
       });
     });
@@ -76,10 +73,12 @@ const MyCart = (props) => {
   // Removes item from backend
   const removeItem = async (itemId) => {
     try {
-      console.log('ItemId', itemId);
-      const remove = await axios.delete(`${env.BACKEND_URL}/cart/${itemId}`, {
-        headers: { Authorization: userId },
-      });
+      const remove = await axios.delete(
+        `${env.REACT_APP_BACKEND_URL}/cart/${itemId}`,
+        {
+          headers: { Authorization: userId },
+        }
+      );
       getCart();
     } catch (error) {
       console.log(error.message);
@@ -93,7 +92,6 @@ const MyCart = (props) => {
         sum = sum + item.price;
       });
       setSubtotal(sum);
-      console.log(subtotal);
     } catch (error) {
       console.log(error);
     }
@@ -128,15 +126,11 @@ const MyCart = (props) => {
               {cartInfo[i].name} <br />
             </span>
             <span>${cartInfo[i].price}</span>
-            <button
+            <RemoveShoppingCartIcon
               onClick={() => {
                 removeItem(checkList[i].id);
-                console.log(checkList[i].id);
               }}
-            >
-              {' '}
-              Remove{' '}
-            </button>
+            />
           </div>
         </div>
       );
@@ -146,27 +140,26 @@ const MyCart = (props) => {
   };
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
+    <div>
+      <h2>MY CART</h2>
+      {cartInfo.length ? (
+        <div>
+          <div className="cart-container">
+            {cartInfo.map((item, i) => {
+              return returnCart(item, i);
+            })}
+          </div>
+          <h2>
+            <CheckOut subtotal={subtotal} />
+          </h2>
+        </div>
       ) : (
         <div>
-          {cartInfo.length && (
-            <>
-              <h1>Cart Page</h1>
-              <div className="cart-container">
-                {cartInfo.map((item, i) => {
-                  return returnCart(item, i);
-                })}
-              </div>
-              <h2>
-                <CheckOut subtotal={subtotal} />
-              </h2>
-            </>
-          )}
+          Your cart is empty. Add items to it by clicking on the Category link
+          above!
         </div>
       )}
-    </>
+    </div>
   );
 };
 

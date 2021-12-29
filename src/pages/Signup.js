@@ -35,7 +35,7 @@ const Signup = () => {
     try {
       e.preventDefault();
       // Pulls user from backend
-      const response = await axios.post(`${env.BACKEND_URL}/user`, {
+      const response = await axios.post(`${env.REACT_APP_BACKEND_URL}/user`, {
         name,
         email,
         password,

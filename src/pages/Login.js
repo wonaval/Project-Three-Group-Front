@@ -29,26 +29,21 @@ const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const submitForm = async (e) => {
-    try {
-      e.preventDefault();
-      // Pulls user from backend
-      console.log(password);
-      const response = await axios.post(`${env.BACKEND_URL}/user/login`, {
-        email,
-        password,
+  const submitForm = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${env.REACT_APP_BACKEND_URL}/user/login`, {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        setUser(response.data.user);
+        localStorage.setItem('userId', response.data.user.id);
+        navigate('/category');
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
-
-      console.log(response);
-      // Sets user through useContext
-      await setUser(response.data.user);
-
-      // Set userId into localStorage
-      await localStorage.setItem('userId', response.data.user.id);
-      navigate('/category');
-    } catch (error) {
-      console.log('Error:', error.message);
-    }
   };
 
   return (

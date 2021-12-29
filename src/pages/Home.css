@@ -1,0 +1,15 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-logo {
+  width: 260px;
+  height: 260px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 5px 5px 5px rgb(160, 160, 160);
+  margin-top: 20px;
+}

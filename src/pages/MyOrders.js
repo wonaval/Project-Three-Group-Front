@@ -19,7 +19,7 @@ const MyOrders = (props) => {
     try {
       // GET cart from backend
       axios
-        .get(`${env.BACKEND_URL}/cart`, {
+        .get(`${env.REACT_APP_BACKEND_URL}/cart`, {
           headers: { Authorization: userId },
         })
         .then((cartResponse) => {
@@ -46,17 +46,14 @@ const MyOrders = (props) => {
 
   // Get unique dates in cart join table
   const getCartDate = async () => {
-    // const List1 = await [...new Set(cart.map(item => item.checkoutDate))]
-    // Referenced: https://stackoverflow.com/questions/15125920/how-to-get-distinct-values-from-an-array-of-objects-in-javascript?rq=1
-
-    // Alternative function
+    // Unique date values function
     // referenced: https://stackoverflow.com/questions/15125920/how-to-get-distinct-values-from-an-array-of-objects-in-javascript?rq=1
     const List = await cart
       .map((item) => {
         return item.checkoutDate;
       })
       .filter((value, index, self) => self.indexOf(value) === index);
-
+    // Sort unique dates
     const sorted = await List.sort();
     await setUniqueDate(sorted);
   };
@@ -76,7 +73,9 @@ const MyOrders = (props) => {
 
   return (
     <div className="myOrders">
-      <div>PREVIOUS ORDERS</div>
+      <div>
+        <h2>MY ORDERS</h2>
+      </div>
       <div className="orderList">
         {uniqueDate.length && (
           <>

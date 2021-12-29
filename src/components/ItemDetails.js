@@ -15,8 +15,7 @@ const ItemDetails = (props) => {
   // Get single item details
   const getDetail = async () => {
     try {
-      const detail = await axios.get(`${env.BACKEND_URL}/item/${id}`);
-      console.log('Detail', detail.data.item);
+      const detail = await axios.get(`${env.REACT_APP_BACKEND_URL}/item/${id}`);
       setItemInfo(detail.data.item);
     } catch (error) {
       console.log(error.message);
@@ -27,7 +26,7 @@ const ItemDetails = (props) => {
   const addToCartClick = async (itemId) => {
     try {
       const response = await axios.post(
-        `${env.BACKEND_URL}/cart`,
+        `${env.REACT_APP_BACKEND_URL}/cart`,
         { id: id },
         {
           headers: {
@@ -52,17 +51,23 @@ const ItemDetails = (props) => {
           Back to {itemInfo.category}
         </Link>
       </div>
-      <div className="item-div">
-        <div className="item-header">
-          <h2>{itemInfo.name}</h2>
+      <div className="detail-div">
+        <div className="detail-left">
+          <img src={itemInfo.image} className="detail-image" />
         </div>
-        <div>
-          <img src={itemInfo.image} />
+        <div className="detail-mid">
+          <div className="detail-header">
+            <h2>{itemInfo.name}</h2>
+          </div>
+          <div>
+            <div className="detail-text">{itemInfo.description}</div>
+          </div>
         </div>
-        <div>{`Description: ${itemInfo.description}`}</div>
-        <div>Price: ${itemInfo.price}</div>
-        <div>
-          <button onClick={addToCartClick}>Add to Cart</button>
+        <div className="detail-right">
+          <div className="detail-price">${itemInfo.price}.00</div>
+          <div>
+            <button onClick={addToCartClick}>Add to Cart</button>
+          </div>
         </div>
       </div>
     </div>
