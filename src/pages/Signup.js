@@ -23,7 +23,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const Signup = () => {
   const theme = createTheme();
   const navigate = useNavigate();
-  // WILL - This is the userContext syntax added
   const { userState } = useContext(UserContext);
   const [user, setUser] = userState;
 
@@ -31,25 +30,26 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const submitForm = async (e) => {
-    try {
-      e.preventDefault();
-      // Pulls user from backend
-      const response = await axios.post(`${env.REACT_APP_BACKEND_URL}/user`, {
+  const submitForm = (e) => {
+    e.preventDefault();
+    // Pulls user from backend
+    axios
+      .post(`${env.REACT_APP_BACKEND_URL}/user`, {
         name,
         email,
         password,
+      })
+      .then((response) => {
+        // Sets user infor into UserContext
+        setUser(response.data.user);
+        // Sets userId into localStorage
+        localStorage.setItem('userId', response.data.user.id);
+        // Redirect to Category page
+        navigate('/category');
+      })
+      .catch((error) => {
+        console.log(error.mesage);
       });
-      console.log(response);
-      // Sets user through useContext
-      await setUser(response.data.user);
-
-      // Sets userId into localStorage
-      await localStorage.setItem('userId', response.data.user.id);
-      await navigate('/category');
-    } catch (error) {
-      console.log('Error:', error.mesage);
-    }
   };
 
   return (

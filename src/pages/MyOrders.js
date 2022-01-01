@@ -31,17 +31,17 @@ const MyOrders = (props) => {
   };
 
   // Converts cart context into productInfo to be displayed
-  const itemInfo = async () => {
+  const itemInfo = () => {
     // Filters list so only checked out items are left
-    const checkedList = await cart.filter((item) => {
+    const checkedList = cart.filter((item) => {
       return item.checkedOut === true;
     });
-    const infoList = await checkedList.map((item) => {
+    const infoList = checkedList.map((item) => {
       return props.products.find((product) => {
         return product.id === item.itemId;
       });
     });
-    await setCartInfo([...infoList]);
+    setCartInfo([...infoList]);
   };
 
   // Get unique dates in cart join table

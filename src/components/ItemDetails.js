@@ -1,11 +1,17 @@
-import axios from 'axios';
-import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import env from 'react-dotenv';
+import axios from 'axios';
+
 import './ItemDetails.css';
+import { UserContext } from '../context/UserContext';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const ItemDetails = (props) => {
+  // useContext
+  const { userState } = useContext(UserContext);
+  const [user, setUser] = userState;
+
   // useParams
   const { id } = useParams();
 
@@ -66,7 +72,17 @@ const ItemDetails = (props) => {
         <div className="detail-right">
           <div className="detail-price">${itemInfo.price}.00</div>
           <div>
-            <button onClick={addToCartClick}>Add to Cart</button>
+            {user.id ? (
+              <div
+                className="add-to-cart"
+                onClick={() => {
+                  addToCartClick(id);
+                }}
+              >
+                <span className="add-text">Add to Cart</span>
+                <AddShoppingCartIcon sx={{ fontSize: 18 }} />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

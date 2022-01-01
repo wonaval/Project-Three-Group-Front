@@ -6,12 +6,10 @@ import axios from 'axios';
 import env from 'react-dotenv';
 
 import './OrderDetail.css';
-import LoadingScreen from './LoadingScreen';
 
 const OrderDetail = (props) => {
-  const { dateState, loadingState } = useContext(UserContext);
+  const { dateState } = useContext(UserContext);
   const [uniqueDate] = dateState;
-  const [loading, setLoading] = loadingState;
 
   const { id } = useParams();
 
@@ -24,8 +22,6 @@ const OrderDetail = (props) => {
   const getCart = () => {
     const userId = localStorage.getItem('userId');
     try {
-      setLoading(true);
-
       // GET cart from backend
       axios
         .get(`${env.REACT_APP_BACKEND_URL}/cart`, {
@@ -34,10 +30,6 @@ const OrderDetail = (props) => {
         .then((cartResponse) => {
           setCart([...cartResponse.data.items]);
         });
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
     } catch (error) {
       console.log(error.message);
     }
@@ -108,46 +100,42 @@ const OrderDetail = (props) => {
   }, [itemInfo]);
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <div className="order-screen">
-          <div className="order-details">
-            <h1>ORDER DETAILS</h1>
-            <div>{uniqueDate[id]} </div>
-            <div>
-              Address: <b>{address()}</b>{' '}
-            </div>
-            <div>
-              Credit Card: <b>{credit()}</b>{' '}
-            </div>
-            <div>
-              Order Total: <b>${subtotal}</b>
-            </div>
+    <div>
+      <div className="order-screen">
+        <div className="order-details">
+          <h1>ORDER DETAILS</h1>
+          <div>{uniqueDate[id]} </div>
+          <div>
+            Address: <b>{address()}</b>{' '}
           </div>
-
-          <div className="item-container">
-            {cartInfo.map((item, i) => {
-              return (
-                <div
-                  key={i}
-                  style={{ backgroundImage: `url(${cartInfo[i].image})` }}
-                  className="Item-div"
-                >
-                  <div className="item-text">
-                    <span>
-                      {cartInfo[i].name} <br />
-                    </span>
-                    <span>${cartInfo[i].price}</span>
-                  </div>
-                </div>
-              );
-            })}
+          <div>
+            Credit Card: <b>{credit()}</b>{' '}
+          </div>
+          <div>
+            Order Total: <b>${subtotal}</b>
           </div>
         </div>
-      )}
-    </>
+
+        <div className="item-container">
+          {cartInfo.map((item, i) => {
+            return (
+              <div
+                key={i}
+                style={{ backgroundImage: `url(${cartInfo[i].image})` }}
+                className="Item-div"
+              >
+                <div className="item-text">
+                  <span>
+                    {cartInfo[i].name} <br />
+                  </span>
+                  <span>${cartInfo[i].price}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -19,7 +19,6 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from './context/UserContext';
 
 import axios from 'axios';
-import LoadingScreen from './components/LoadingScreen';
 
 function App() {
   // useContext
@@ -92,7 +91,6 @@ function App() {
       <Header cart={cart} setCart={setCart} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/loading" element={<LoadingScreen />} />
         <Route
           path="/signup"
           element={

@@ -4,14 +4,9 @@ import axios from 'axios';
 import env from 'react-dotenv';
 import CheckOut from '../components/CheckOut';
 import './MyCart.css';
-import LoadingScreen from '../components/LoadingScreen';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 const MyCart = (props) => {
-  // useContexts
-  const { loadingState } = useContext(UserContext);
-  const [loading, setLoading] = loadingState;
-
   // useStates
   const [cart, setCart] = useState([]);
   const [checkList, setCheckList] = useState([]);
@@ -23,7 +18,6 @@ const MyCart = (props) => {
   // Get cart from backend
   const getCart = () => {
     try {
-      setLoading(true);
       // GET cart from backend
       axios
         .get(`${env.REACT_APP_BACKEND_URL}/cart`, {
@@ -32,10 +26,6 @@ const MyCart = (props) => {
         .then((cartResponse) => {
           setCart([...cartResponse.data.items]);
         });
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
     } catch (error) {
       console.log(error.message);
     }
@@ -65,9 +55,6 @@ const MyCart = (props) => {
       });
     });
     setCartInfo(infoList);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
   };
 
   // Removes item from backend
