@@ -85,3 +85,27 @@
   -webkit-box-shadow: 0 0 6px rgb(0, 0, 0);
   transition: background-color 1s ease;
 }
+
+.checkout {
+  margin: 20px auto;
+  width: 500px;
+  outline: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checkout div {
+  margin: 5px;
+}
+
+.checkout form {
+  margin: 5px;
+
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}

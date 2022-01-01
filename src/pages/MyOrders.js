@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import env from 'react-dotenv';
+import './MyOrders.css';
 
 const MyOrders = (props) => {
   // useContexts
@@ -58,6 +59,24 @@ const MyOrders = (props) => {
     await setUniqueDate(sorted);
   };
 
+  const getMonth = (monthNum) => {
+    let month = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return month[monthNum - 1];
+  };
+
   // Cascading useEffect in order to get useState to time correctly
   useEffect(() => {
     getCart();
@@ -77,18 +96,30 @@ const MyOrders = (props) => {
         <h2>MY ORDERS</h2>
       </div>
       <div className="orderList">
-        {uniqueDate.length && (
+        {uniqueDate.length ? (
           <>
             {uniqueDate.map((date, i) => {
               if (date !== null) {
                 return (
                   <div key={i}>
-                    <Link to={`/orders/${i}`}> {date} </Link>
+                    {'Order Placed: '}
+                    <Link to={`/orders/${i}`}>
+                      <span>
+                        {`
+                          ${getMonth(date.slice(5, 7))}
+                          ${date.slice(8, 10)}, 
+                          ${date.slice(0, 4)} 
+                          ${date.slice(11, 19)}
+                        `}
+                      </span>
+                    </Link>
                   </div>
                 );
               }
             })}
           </>
+        ) : (
+          <div>You currently do not have any previous orders.</div>
         )}
       </div>
     </div>

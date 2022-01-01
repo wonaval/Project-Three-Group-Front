@@ -1,0 +1,17 @@
+.orderList {
+  width: 500px;
+}
+
+.orderList div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myOrders {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+}

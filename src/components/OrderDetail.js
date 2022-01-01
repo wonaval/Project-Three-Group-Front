@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import axios from 'axios';
 import env from 'react-dotenv';
@@ -104,6 +104,7 @@ const OrderDetail = (props) => {
       <div className="order-screen">
         <div className="order-details">
           <h1>ORDER DETAILS</h1>
+          <Link to="/order">Back to My Orders</Link>
           <div>{uniqueDate[id]} </div>
           <div>
             Address: <b>{address()}</b>{' '}
